@@ -8,4 +8,6 @@
 
 5. Raport miesięczny/tygodniowy obraujący zużycie i wydatki, z możliwością podziału na kategorie.
 
+6. Zdefiniowanie wartości kalorycznych dla produktów, tak by następnie system podliczył kalorie wykorzystanych produktów.
 
+7. Zdefiniowanie minimalnej ilości danych produktów, po przekroczeniu której system poinformuje użytkownika o brakach albo sam doda je do listy.
