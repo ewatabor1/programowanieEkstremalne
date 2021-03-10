@@ -1,1 +1,10 @@
+1. Używamy getterów i setterów
+2. Komentarze i commity po angielsku.
+3. Używamy tabulatorów.
+4. Klamerki w tej samej linijce co definicja.
+5. Klasy PascalCase, reszta camelCase (zmienne, metody).
+6. Jeden plik - jedna klasa.
+7. Java 8
+
+
 
