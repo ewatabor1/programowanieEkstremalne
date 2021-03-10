@@ -14,3 +14,5 @@
 
 8. Możliwość wprowadzania przepisów na potrawy, na następnie wyświetlenie możliwych potraw, które można przyrządzić korzystając z obecnej zawartości lodówki.
 Dodatkowo powinna zostać dodana możliwość aktualizacji listy zakupów o brakujące produkty do przyrządzenia wybranej potrawy.
+
+9. Wprowadzanie dat ważności produktów, a następnie wyświetlanie na tej podstawie przypomnień na ekranie lodówki o zbliżającym się końcu ważności.
