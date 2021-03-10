@@ -1,1 +1,11 @@
+1. Dodawnanie produktów do zawartości lodówki. Uwzględnienie ilości i ceny poszczególnych produktów.
+
+2. Usuwanie produktu z zawartości lodówki. Możliwość usunięcia dowolnej ilości produktów (mniejsza lub równa posiadanej).
+
+3. Tworzenie listy zakupów. Nazwa data. Możliwość stworzenia wielu list. Dodawanie i usuwanie produktów do listy zakupów, z uwzględnieniem ilości.
+
+4. Podział produktów na kategorie. 
+
+5. Raport miesięczny/tygodniowy obraujący zużycie i wydatki, z możliwością podziału na kategorie.
+
 
