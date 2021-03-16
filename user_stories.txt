@@ -1,20 +1,27 @@
-1. Dodawnanie produktów do zawartości lodówki. Uwzględnienie ilości i ceny poszczególnych produktów.
+(czas: 06h)1. Dodawnanie produktów do zawartości lodówki. Uwzględnienie ilości i ceny poszczególnych produktów.
+	Użytkownik ma możliwośc edycji produktów znajdujących się w lodówce - dodawanie,usuwanie,edycja pozycji na liście
 
-2. Usuwanie produktu z zawartości lodówki. Możliwość usunięcia dowolnej ilości produktów (mniejsza lub równa posiadanej).
+(czas: 02h)2. Usuwanie produktu z zawartości lodówki. Możliwość usunięcia dowolnej ilości produktów (mniejsza lub równa posiadanej).
 
-3. Tworzenie listy zakupów. Nazwa data. Możliwość stworzenia wielu list. Dodawanie i usuwanie produktów do listy zakupów, z uwzględnieniem ilości.
+(czas: 08h)3. Tworzenie listy zakupów. Nazwa data. Możliwość stworzenia wielu list. Dodawanie i usuwanie produktów do listy zakupów, z uwzględnieniem ilości.
 
-4. Podział produktów na kategorie. 
+(czas: 04h)4. Podział produktów na kategorie.
+	Użytkownik ma możliwość wyboru/tworzenia nowych kategorii danego produktu
 
-5. Raport miesięczny/tygodniowy obraujący zużycie i wydatki, z możliwością podziału na kategorie.
+(czas: 08h)5. Raport miesięczny/tygodniowy obrazujący zużycie i wydatki, z możliwością podziału na kategorie.
 
-6. Zdefiniowanie wartości kalorycznych dla produktów, tak by następnie system podliczył kalorie wykorzystanych produktów.
+(czas: 04h)6. Zdefiniowanie wartości kalorycznych dla produktów, tak by następnie system podliczył kalorie wykorzystanych produktów.
 
-7. Zdefiniowanie minimalnej ilości danych produktów, po przekroczeniu której system poinformuje użytkownika o brakach albo sam doda je do listy.
+(czas: 04h)7. Zdefiniowanie minimalnej ilości danych produktów, po przekroczeniu której system poinformuje użytkownika o brakach albo sam doda je do listy.
 
-8. Możliwość wprowadzania przepisów na potrawy, na następnie wyświetlenie możliwych potraw, które można przyrządzić korzystając z obecnej zawartości lodówki.
+(czas: 04h)8. Możliwość wprowadzania przepisów na potrawy, na następnie wyświetlenie możliwych potraw, które można przyrządzić korzystając z obecnej zawartości lodówki.
 Dodatkowo powinna zostać dodana możliwość aktualizacji listy zakupów o brakujące produkty do przyrządzenia wybranej potrawy.
 
-9. Wprowadzanie dat ważności produktów, a następnie wyświetlanie na tej podstawie przypomnień na ekranie lodówki o zbliżającym się końcu ważności.
+(czas: 03h)9. Wprowadzanie dat ważności produktów, a następnie wyświetlanie na tej podstawie przypomnień na ekranie lodówki o zbliżającym się końcu ważności.
 
-10. Sugestie zamienników brakujących składników do wykonania przepisu bazując na zawartości lodówki, wraz z podaniem odpowiadającej ilości zamiennika względem ilości oryginalnego składnika w przepisie.
+(czas: 04h)10. Sugestie zamienników brakujących składników do wykonania przepisu bazując na zawartości lodówki, wraz z podaniem odpowiadającej ilości zamiennika względem ilości oryginalnego składnika w przepisie.
+
+(czas: 04h)11. Tworzenie listy najpopularniejszych produktów
+
+(czas: 08h)12. Możliwość monitorowania i przegladania zawartości lodówki
+	Utworzenie GUI użytkownika
