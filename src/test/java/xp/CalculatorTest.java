@@ -78,4 +78,85 @@ public class CalculatorTest {
             });
         }
     }
+
+    @Test
+    void noOfBits1_Valid() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("1", 1);
+            put("255", 8);
+            put("127", 7);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            int result = new Calculator().noOfBits1(entry.getKey());
+            assertEquals(entry.getValue(), result);
+        }
+    }
+
+    @Test
+    void noOfBits1_Invalid_out_of_bounds() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("-1", 0);
+            put("1255", 0);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                new Calculator().noOfBits1(entry.getKey());
+            });
+        }
+    }
+    @Test
+    void noOfBits1_MultipleNumbers_CommaDelimiter() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("1,1", 2);
+            put("255,255", 16);
+            put("127,127", 14);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            int result = new Calculator().noOfBits1(entry.getKey());
+            assertEquals(entry.getValue(), result);
+        }
+    }
+    @Test
+    void noOfBits1_MultipleNumbers_OtherDelimiters() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("1,1", 2);
+            put("255 255", 16);
+            put("127;127", 14);
+            put("127    \t127", 14);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            int result = new Calculator().noOfBits1(entry.getKey());
+            assertEquals(entry.getValue(), result);
+        }
+    }
+    @Test
+    void noOfBits1_MultipleNumbers_InvalidDelimiters() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("1k1", 0);
+            put("255|255", 0);
+            put("127[127", 0);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                new Calculator().noOfBits1(entry.getKey());
+            });
+        }
+    }
+    @Test
+    void noOfBits1_MultipleNumbers_Hexadecimal() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("1,$1", 2);
+            put("$ff 255", 16);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            int result = new Calculator().noOfBits1(entry.getKey());
+            assertEquals(entry.getValue(), result);
+        }
+    }
 }
