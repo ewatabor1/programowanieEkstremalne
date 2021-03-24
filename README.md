@@ -1,2 +1,0 @@
-# programowanieEkstremalne
-Programowanie ekstremalne ćwiczenia
