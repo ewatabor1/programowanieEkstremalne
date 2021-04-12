@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalculatorTest {
@@ -48,6 +51,95 @@ class CalculatorTest {
             fail("No exception");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Negatives not allowed: -2,-4");
+        }
+    }
+
+    @Test
+    void noOfBits1_SingleNumber() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("1", 1);
+            put("2", 1);
+            put("3", 2);
+            put("7", 3);
+            put("127", 7);
+            put("255", 8);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            int result = new Calculator().noOfBits1(entry.getKey());
+            assertEquals(entry.getValue(), result);
+        }
+    }
+
+    @Test
+    void noOfBits1_Invalid_out_of_bounds() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("-1", 0);
+            put("256", 0);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                new Calculator().noOfBits1(entry.getKey());
+            });
+        }
+    }
+
+    @Test
+    void noOfBits1_CommaDelimiter() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("2,2", 2);
+            put("7,7", 6);
+            put("255,255", 16);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            int result = new Calculator().noOfBits1(entry.getKey());
+            assertEquals(entry.getValue(), result);
+        }
+    }
+
+    @Test
+    void noOfBits1_OtherDelimiters() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("1,1", 2);
+            put("1 1", 2);
+            put("1;1", 2);
+            put("1\n1", 2);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            int result = new Calculator().noOfBits1(entry.getKey());
+            assertEquals(entry.getValue(), result);
+        }
+    }
+
+    @Test
+    void noOfBits1_InvalidDelimiters() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("1a1", 0);
+            put("1|1", 0);
+            put("1[1", 0);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                new Calculator().noOfBits1(entry.getKey());
+            });
+        }
+    }
+
+    @Test
+    void noOfBits1_MultipleNumbers_w_Hexadecimal() {
+        Map<String, Integer> tests = new HashMap<String, Integer>() {{
+            put("1,$1", 2);
+            put("2,$1", 2);
+            put("$ff 255", 16);
+        }};
+
+        for (Map.Entry<String, Integer> entry : tests.entrySet()) {
+            int result = new Calculator().noOfBits1(entry.getKey());
+            assertEquals(entry.getValue(), result);
         }
     }
 }

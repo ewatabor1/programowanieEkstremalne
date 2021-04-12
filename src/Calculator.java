@@ -31,4 +31,26 @@ public class Calculator {
         }
         return Arrays.stream(splitNumbers).sum();
     }
+
+    public int noOfBits1(String numbers) {
+        if (numbers == null || numbers.isEmpty()) {
+            return 0;
+        }
+        String[] items = numbers.split(";|,|\\s+");
+        int parsedNumber;
+        int sum = 0;
+        for (String number : items) {
+            if (number.startsWith("$")) {
+                parsedNumber = Integer.parseInt(number.substring(1), 16);
+            } else {
+                parsedNumber = Integer.parseInt(number);
+            }
+            if (parsedNumber < 0 || parsedNumber > 255) {
+                throw new IllegalArgumentException();
+            } else {
+                sum += Integer.bitCount(parsedNumber);
+            }
+        }
+        return sum;
+    }
 }
