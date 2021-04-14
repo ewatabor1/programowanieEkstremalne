@@ -21,7 +21,7 @@ public class NumberOfBitsTest {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
             numberOfBits.noOfBits1(number);
         });
-        assertEquals(exception.getMessage(), "Number out of range!");
+        assertEquals(exception.getMessage(), "Numbers out of range! " + "300");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class NumberOfBitsTest {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
             numberOfBits.noOfBits1(number);
         });
-        assertEquals(exception.getMessage(), "Illegal character given!");
+        assertEquals(exception.getMessage(), "Illegal characters given! " + "1a\\bb\\c");
     }
 
     @Test
