@@ -11,3 +11,4 @@ L.p.	    User story	                                                            
 9	    Tworzenie listy najpopularniejszych produktów	                                                                                                       6	                0	                0	                           M
 10	    Możliwość monitorowania i przegladania zawartości lodówki	                                                                                               6	                0	                5	                           M
 				                                                                                                                                                                                           (klient: RM)	
+https://docs.google.com/spreadsheets/d/1PKPDH2PsSF_6Lp6cNQBkTWFsEboB0LOfb8_Zlr59VMk
