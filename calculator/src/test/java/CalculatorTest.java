@@ -61,6 +61,6 @@ public class CalculatorTest {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.add(numbers);
         });
-        assertEquals(exception.getMessage(), "negatives not allowed " + numbers);
+        assertEquals(exception.getMessage(), "negatives not allowed " + "-1");
     }
 }

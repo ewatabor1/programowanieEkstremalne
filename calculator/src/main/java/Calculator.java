@@ -18,10 +18,11 @@ public class Calculator {
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
 
-        for (Integer integer : ints){
-            if (integer<0)
-                throw new IllegalArgumentException("negatives not allowed "+numbers);
-        }
+
+        String negativeInts = ints.stream().filter(i -> i<0).map(String::valueOf).collect(Collectors.joining(", "));
+
+        if (!negativeInts.isEmpty())
+            throw new IllegalArgumentException("negatives not allowed "+negativeInts);
 
         return ints.stream().mapToInt(Integer::intValue).sum();
     }
