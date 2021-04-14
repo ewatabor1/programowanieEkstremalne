@@ -25,3 +25,5 @@ Dodatkowo powinna zostać dodana możliwość aktualizacji listy zakupów o brak
 
 (czas: 08h)12. Możliwość monitorowania i przegladania zawartości lodówki
 	Utworzenie GUI użytkownika
+
+https://docs.google.com/spreadsheets/d/1PKPDH2PsSF_6Lp6cNQBkTWFsEboB0LOfb8_Zlr59VMk/edit#gid=0
