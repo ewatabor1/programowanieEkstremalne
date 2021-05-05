@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.fridgemanager.services;
 
+import com.example.demo.fridgemanager.entities.Product;
+import com.example.demo.fridgemanager.dto.ProductDTO;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -24,7 +26,7 @@ public class ProductService {
 
     @Transactional
     public Product save(ProductDTO dto) {
-        Product product = new Product(dto.getName());
+        Product product = new Product(dto.getName(), dto.getKcal(), dto.getExpiryDate());
         entityManager.persist(product);
         return product;
     }
