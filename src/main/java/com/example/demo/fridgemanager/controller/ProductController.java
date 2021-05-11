@@ -25,6 +25,14 @@ public class ProductController {
         ).collect(Collectors.toList());
     }
 
+    @GetMapping(value = "/products/{name}",produces = APPLICATION_JSON_VALUE)
+    List<ProductDTO> allByName(@PathVariable String name) {
+        // return all products by name
+        return productService.getProducts(name).stream().map(product ->
+                new ProductDTO(product.getId(), product.getName(), product.getKcal(), product.getExpiryDate())
+        ).collect(Collectors.toList());
+    }
+
     @PostMapping(value = "/products", consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
     ProductDTO newProduct(@RequestBody ProductDTO newProduct) {
         // save product to db
@@ -32,9 +40,15 @@ public class ProductController {
         return new ProductDTO(saved.getId(), saved.getName(), saved.getKcal(), saved.getExpiryDate());
     }
 
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/products/deleteby/{id}")
     void deleteProduct(@PathVariable Long id) {
         //delete product by id
         productService.delete(id);
+    }
+
+    @DeleteMapping("/products/delete/{name}")
+    void deleteProduct(@PathVariable String name) {
+        //delete product by name
+        productService.deleteByName(name);
     }
 }

@@ -20,8 +20,19 @@ public class ProductService {
     }
 
     @Transactional
+    public List<Product> getProducts(String name) {
+        List<Product> products = entityManager.createQuery("SELECT FROM Product where name =:name").setParameter("name", name).getResultList();
+        return products;
+    }
+
+    @Transactional
     public void delete(Long id) {
         entityManager.createQuery("DELETE FROM Product where id =:id").setParameter("id", id).executeUpdate();
+    }
+
+    @Transactional
+    public void deleteByName(String name) {
+        entityManager.createQuery("DELETE FROM Product where name =:name").setParameter("name", name).executeUpdate();
     }
 
     @Transactional

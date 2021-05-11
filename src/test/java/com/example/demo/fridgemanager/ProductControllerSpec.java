@@ -21,6 +21,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -48,6 +49,21 @@ class ProductControllerSpec {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$", hasSize(1)))
 			.andExpect(jsonPath("$[0].name", is(pepsi.getName())));
+	}
+
+	@Test
+	void shouldDeleteProductFromDatabase() throws Exception {
+		Product pepsi = new Product("pepsi", 250, LocalDate.now());
+
+		List<Product> allProducts = Collections.singletonList(pepsi);
+
+		given(service.findAll()).willReturn(allProducts);
+
+		mvc.perform(delete("/api/products/delete/pepsi"));
+		mvc.perform(get("/api/products/pepsi")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", hasSize(0)));
 	}
 
 }
