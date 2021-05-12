@@ -28,7 +28,7 @@ public class ProductController {
     @GetMapping(value = "/products/{name}",produces = APPLICATION_JSON_VALUE)
     List<ProductDTO> allByName(@PathVariable String name) {
         // return all products by name
-        return productService.getProducts(name).stream().map(product ->
+        return productService.getProductsByName(name).stream().map(product ->
                 new ProductDTO(product.getId(), product.getName(), product.getKcal(), product.getExpiryDate())
         ).collect(Collectors.toList());
     }
@@ -40,13 +40,13 @@ public class ProductController {
         return new ProductDTO(saved.getId(), saved.getName(), saved.getKcal(), saved.getExpiryDate());
     }
 
-    @DeleteMapping("/products/deleteby/{id}")
+    @DeleteMapping("/products/{id}")
     void deleteProduct(@PathVariable Long id) {
         //delete product by id
         productService.delete(id);
     }
 
-    @DeleteMapping("/products/delete/{name}")
+    @DeleteMapping("/products/delete_by_name/{name}")
     void deleteProduct(@PathVariable String name) {
         //delete product by name
         productService.deleteByName(name);

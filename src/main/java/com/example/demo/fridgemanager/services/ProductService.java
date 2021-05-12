@@ -1,7 +1,9 @@
 package com.example.demo.fridgemanager.services;
 
+import com.example.demo.fridgemanager.dao.ProductDAO;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.dto.ProductDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -11,34 +13,33 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private ProductDAO dao;
 
     public List<Product> findAll() {
-        List<Product> products = entityManager.createQuery("SELECT p FROM Product p").getResultList();
+        List<Product> products = dao.findAll();
         return products;
     }
 
-    @Transactional
-    public List<Product> getProducts(String name) {
-        List<Product> products = entityManager.createQuery("SELECT FROM Product where name =:name").setParameter("name", name).getResultList();
+    public List<Product> getProductsByName(String name) {
+        List<Product> products = dao.findByName(name);
         return products;
     }
 
     @Transactional
     public void delete(Long id) {
-        entityManager.createQuery("DELETE FROM Product where id =:id").setParameter("id", id).executeUpdate();
+        dao.delete(id);
     }
 
     @Transactional
     public void deleteByName(String name) {
-        entityManager.createQuery("DELETE FROM Product where name =:name").setParameter("name", name).executeUpdate();
+        dao.deleteByName(name);
     }
 
     @Transactional
     public Product save(ProductDTO dto) {
         Product product = new Product(dto.getName(), dto.getKcal(), dto.getExpiryDate());
-        entityManager.persist(product);
+        dao.save(product);
         return product;
     }
 }

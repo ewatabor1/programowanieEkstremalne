@@ -13,3 +13,7 @@ Content-Type: application/json
 ###
 
 DELETE localhost:8080/api/products/1
+
+###
+
+DELETE localhost:8080/api/products/delete_by_name/pepsi
