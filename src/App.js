@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const initialState = [{id:'Banan', value:2}, {id:'Banan', value:3}, {id:'Banan', value:1}, {id:'Banan', value:5}]
+const initialState = ['Banan','Truskawka','Ciastko','Czekolada']
 
 function App() {
   const classes = useStyles();
@@ -47,6 +47,11 @@ function App() {
   const handleSubmit = () =>{
     setData(Data =>Data.concat(Value))
     setValue("")
+  }
+
+  const handleRemove = (value) => {
+    const newArray = Data.filter((item) => item !== value)
+    setData(newArray)
   }
   return (
     <div className='App-header'>
@@ -78,7 +83,7 @@ function App() {
             <ListItemText id={labelId} primary={value} />
             <ListItemText id={labelId} primary={value.value} />
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="comments">
+              <IconButton edge="end" aria-label="comments" onClick={()=>handleRemove(value)}>
                 <DeleteIcon />
               </IconButton>
             </ListItemSecondaryAction>
