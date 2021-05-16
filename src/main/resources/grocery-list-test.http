@@ -1,0 +1,24 @@
+GET localhost:8080/api/grocery-lists
+
+###
+POST localhost:8080/api/grocery-lists HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "test list",
+  "createdAt": "2021-05-16",
+  "products": [
+    {
+      "product": "pepsi",
+      "quantity": 3
+    }
+  ]
+}
+
+###
+
+DELETE localhost:8080/api/grocery-lists/1
+
+###
+
+DELETE localhost:8080/api/grocery-lists/delete_by_name/pepsi
