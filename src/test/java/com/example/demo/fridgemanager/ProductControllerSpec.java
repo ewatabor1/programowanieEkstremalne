@@ -2,6 +2,7 @@ package com.example.demo.fridgemanager;
 
 import com.example.demo.fridgemanager.controller.ProductController;
 import com.example.demo.fridgemanager.dao.ProductDAO;
+import com.example.demo.fridgemanager.dto.ProductDTOMapper;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.services.ProductService;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(ProductController.class)
-@ContextConfiguration(classes = {ProductService.class,ProductController.class})
+@ContextConfiguration(classes = {ProductService.class,ProductController.class, ProductDTOMapper.class})
 class ProductControllerSpec {
 
     @Autowired
@@ -39,7 +40,7 @@ class ProductControllerSpec {
 
     @Test
     void shouldAddProductToDatabase() throws Exception {
-        Product pepsi = new Product("pepsi", 250, LocalDate.now());
+        Product pepsi = new Product("pepsi", null, LocalDate.now(),1d,2d,3d);
 
         List<Product> allProducts = Collections.singletonList(pepsi);
 
@@ -49,12 +50,16 @@ class ProductControllerSpec {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", is(pepsi.getName())));
+                .andExpect(jsonPath("$[0].name", is(pepsi.getName())))
+                .andExpect(jsonPath("$[0].fats", is(3.0d)))
+                .andExpect(jsonPath("$[0].carbohydrates", is(2d)))
+                .andExpect(jsonPath("$[0].proteins", is(1d)))
+                .andExpect(jsonPath("$[0].kcal", is(39)));
     }
 
     @Test
     void shouldDeleteProductFromDatabase() throws Exception {
-        Product pepsi = new Product("pepsi", 250, LocalDate.now());
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), null,null,null);
 
         List<Product> allProducts = Collections.singletonList(pepsi);
 

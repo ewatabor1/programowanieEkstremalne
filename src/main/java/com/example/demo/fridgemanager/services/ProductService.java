@@ -6,8 +6,6 @@ import com.example.demo.fridgemanager.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class ProductService {
 
     @Transactional
     public Product save(ProductDTO dto) {
-        Product product = new Product(dto.getName(), dto.getKcal(), dto.getExpiryDate());
+        Product product = new Product(dto.getName(), dto.getKcal(), dto.getExpiryDate(),dto.getProteins(),dto.getCarbohydrates(),dto.getFats());
         dao.save(product);
         return product;
     }

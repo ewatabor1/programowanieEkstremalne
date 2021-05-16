@@ -58,4 +58,10 @@ public class DatabaseConfig {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 
+    @Bean
+    public TransactionTemplate transactionTemplate() {
+        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager());
+        return transactionTemplate;
+    }
+
 }

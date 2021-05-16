@@ -1,6 +1,7 @@
 package com.example.demo.fridgemanager.controller;
 
 import com.example.demo.fridgemanager.dto.ProductDTO;
+import com.example.demo.fridgemanager.dto.ProductDTOMapper;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +17,28 @@ import static org.springframework.http.MediaType.*;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductDTOMapper productDTOMapper;
 
     @GetMapping(value = "/products",produces = APPLICATION_JSON_VALUE)
     List<ProductDTO> all() {
         // return all products
-        return productService.findAll().stream().map(product ->
-            new ProductDTO(product.getId(), product.getName(), product.getKcal(), product.getExpiryDate())
-        ).collect(Collectors.toList());
+        List<Product> entities = productService.findAll();
+        return productDTOMapper.mapToDTO(entities);
     }
 
     @GetMapping(value = "/products/{name}",produces = APPLICATION_JSON_VALUE)
     List<ProductDTO> allByName(@PathVariable String name) {
         // return all products by name
-        return productService.getProductsByName(name).stream().map(product ->
-                new ProductDTO(product.getId(), product.getName(), product.getKcal(), product.getExpiryDate())
-        ).collect(Collectors.toList());
+        List<Product> entities = productService.getProductsByName(name);
+        return productDTOMapper.mapToDTO(entities);
     }
 
     @PostMapping(value = "/products", consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
     ProductDTO newProduct(@RequestBody ProductDTO newProduct) {
         // save product to db
         Product saved = productService.save(newProduct);
-        return new ProductDTO(saved.getId(), saved.getName(), saved.getKcal(), saved.getExpiryDate());
+        return productDTOMapper.mapToDTO(saved);
     }
 
     @DeleteMapping("/products/{id}")
