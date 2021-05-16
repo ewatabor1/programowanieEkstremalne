@@ -66,11 +66,13 @@ public class RecipeService {
         dao.delete(id);
     }
 
+    @Transactional
     public Recipe save(RecipeDTO dto) {
         Recipe recipe = new Recipe();
         return updateInternal(recipe, dto);
     }
 
+    @Transactional
     public Recipe update(Long id, RecipeDTO dto) {
         Recipe recipe = dao.findById(id);
         if (recipe == null)
