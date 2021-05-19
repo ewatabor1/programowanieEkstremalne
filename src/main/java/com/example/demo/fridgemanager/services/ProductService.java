@@ -31,6 +31,10 @@ public class ProductService {
         dao.delete(id);
     }
 
+    public Product getById(Long id) {
+        return dao.getById(id);
+    }
+
     @Transactional
     public void deleteByName(String name) {
         dao.deleteByName(name);
@@ -38,8 +42,21 @@ public class ProductService {
 
     @Transactional
     public Product save(ProductDTO dto) {
-        Product product = new Product(dto.getName(), dto.getKcal(), dto.getExpiryDate());
+        Product product = dto.toEntity();
         dao.save(product);
         return product;
+    }
+
+    @Transactional
+    public Product update(Long id, ProductDTO dto) {
+        Product entityToUpdate = dao.getById(id);
+        if (entityToUpdate != null) {
+            if (dto.getExpiryDate() != null) entityToUpdate.setExpiryDate(dto.getExpiryDate());
+            if (dto.getKcal() != null) entityToUpdate.setKcal(dto.getKcal());
+            if (dto.getQuantity() != null) entityToUpdate.setQuantity(dto.getQuantity());
+            if (dto.getMinQuantity() != null) entityToUpdate.setMinQuantity(dto.getMinQuantity());
+            dao.save(entityToUpdate);
+        }
+        return entityToUpdate;
     }
 }

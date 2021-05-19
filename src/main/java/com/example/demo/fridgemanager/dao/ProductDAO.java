@@ -42,4 +42,8 @@ public class ProductDAO {
         entityManager.persist(product);
         return product;
     }
+
+    public Product getById(Long id) {
+        return entityManager.find(Product.class, id);
+    }
 }

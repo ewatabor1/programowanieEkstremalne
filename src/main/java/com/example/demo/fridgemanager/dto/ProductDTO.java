@@ -1,5 +1,7 @@
 package com.example.demo.fridgemanager.dto;
 
+import com.example.demo.fridgemanager.entities.Product;
+
 import java.time.LocalDate;
 
 public class ProductDTO {
@@ -7,15 +9,19 @@ public class ProductDTO {
     private String name;
     private Integer kcal;
     private LocalDate expiryDate;
+    private Integer quantity;
+    private Integer minQuantity;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, String name, Integer kcal, LocalDate expiryDate) {
-        this.id = id;
+    public ProductDTO(String name, Integer kcal, LocalDate expiryDate, Integer quantity, Integer minQuantity) {
         this.name = name;
         this.kcal = kcal;
         this.expiryDate = expiryDate;
+        this.quantity = quantity;
+        if(this.quantity == null) this.quantity = 1;
+        this.minQuantity = minQuantity;
     }
 
     public Integer getKcal() {
@@ -48,5 +54,27 @@ public class ProductDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Product toEntity() {
+        Product p = new Product(this.name, this.kcal, this.expiryDate, this.quantity, this.minQuantity);
+        p.setId(id);
+        return p;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Integer getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
     }
 }

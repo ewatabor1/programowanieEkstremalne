@@ -3,7 +3,10 @@ package com.example.demo.fridgemanager.controller;
 import com.example.demo.fridgemanager.dto.ProductDTO;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.services.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,24 +23,26 @@ public class ProductController {
     @GetMapping(value = "/products",produces = APPLICATION_JSON_VALUE)
     List<ProductDTO> all() {
         // return all products
-        return productService.findAll().stream().map(product ->
-            new ProductDTO(product.getId(), product.getName(), product.getKcal(), product.getExpiryDate())
-        ).collect(Collectors.toList());
+        return productService.findAll().stream().map(Product::toDTO).collect(Collectors.toList());
     }
 
     @GetMapping(value = "/products/{name}",produces = APPLICATION_JSON_VALUE)
     List<ProductDTO> allByName(@PathVariable String name) {
         // return all products by name
-        return productService.getProductsByName(name).stream().map(product ->
-                new ProductDTO(product.getId(), product.getName(), product.getKcal(), product.getExpiryDate())
-        ).collect(Collectors.toList());
+        return productService.getProductsByName(name).stream().map(Product::toDTO).collect(Collectors.toList());
     }
 
     @PostMapping(value = "/products", consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
     ProductDTO newProduct(@RequestBody ProductDTO newProduct) {
         // save product to db
         Product saved = productService.save(newProduct);
-        return new ProductDTO(saved.getId(), saved.getName(), saved.getKcal(), saved.getExpiryDate());
+        return saved.toDTO();
+    }
+
+    @PutMapping(value = "/products/{id}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    ProductDTO updatedProduct(@PathVariable Long id, @RequestBody ProductDTO updated) {
+        // update product in db
+        return productService.update(id, updated).toDTO();
     }
 
     @DeleteMapping("/products/{id}")
@@ -50,5 +55,25 @@ public class ProductController {
     void deleteProduct(@PathVariable String name) {
         //delete product by name
         productService.deleteByName(name);
+    }
+
+    @PutMapping(value = "/products/supply/{id}/{quantity}", produces = APPLICATION_JSON_VALUE)
+    ProductDTO addProduct(@PathVariable Long id, @PathVariable Integer quantity) {
+        Product current = productService.getById(id);
+        ProductDTO updated = current.toDTO();
+        updated.setQuantity(current.getQuantity() + quantity);
+        return productService.update(id, updated).toDTO();
+    }
+
+    @PutMapping(value = "/products/consume/{id}/{quantity}", produces = APPLICATION_JSON_VALUE)
+    Object consumeProduct(@PathVariable Long id, @PathVariable Integer quantity) {
+        Product current = productService.getById(id);
+        ProductDTO updated = current.toDTO();
+        if(current.getQuantity() < quantity) {
+            String message = "There is no enough product: " + current.getName() + ". Available: " + current.getQuantity();
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
+        updated.setQuantity(current.getQuantity() - quantity);
+        return productService.update(id, updated).toDTO();
     }
 }

@@ -4,6 +4,7 @@ import com.example.demo.fridgemanager.controller.ProductController;
 import com.example.demo.fridgemanager.dao.ProductDAO;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.services.ProductService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -23,8 +25,8 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(ProductController.class)
@@ -39,7 +41,7 @@ class ProductControllerSpec {
 
     @Test
     void shouldAddProductToDatabase() throws Exception {
-        Product pepsi = new Product("pepsi", 250, LocalDate.now());
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null);
 
         List<Product> allProducts = Collections.singletonList(pepsi);
 
@@ -54,7 +56,7 @@ class ProductControllerSpec {
 
     @Test
     void shouldDeleteProductFromDatabase() throws Exception {
-        Product pepsi = new Product("pepsi", 250, LocalDate.now());
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null);
 
         List<Product> allProducts = Collections.singletonList(pepsi);
 
@@ -67,6 +69,39 @@ class ProductControllerSpec {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    void shouldSupplyProduct() throws Exception {
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null);
+
+        given(dao.getById(1L)).willReturn(pepsi);
+
+        mvc.perform(put("/api/products/supply/1/2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quantity", is(3)));
+    }
+
+    @Test
+    void shouldConsumeProduct() throws Exception {
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), 2, null);
+
+        given(dao.getById(1L)).willReturn(pepsi);
+
+        mvc.perform(put("/api/products/consume/1/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quantity", is(1)));
+    }
+
+    @Test
+    void shouldNotConsumeProduct() throws Exception {
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), 2, null);
+
+        given(dao.getById(1L)).willReturn(pepsi);
+
+        mvc.perform(put("/api/products/consume/1/3"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("There is no enough product: " + pepsi.getName() + ". Available: " + pepsi.getQuantity()));
     }
 
 }
