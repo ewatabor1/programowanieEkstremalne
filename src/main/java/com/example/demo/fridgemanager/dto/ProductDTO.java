@@ -1,6 +1,10 @@
 package com.example.demo.fridgemanager.dto;
 
 import com.example.demo.fridgemanager.entities.Product;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import java.time.LocalDate;
 
@@ -8,6 +12,9 @@ public class ProductDTO {
     private Long id;
     private String name;
     private Integer kcal;
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate expiryDate;
     private Integer quantity;
     private Integer minQuantity;
