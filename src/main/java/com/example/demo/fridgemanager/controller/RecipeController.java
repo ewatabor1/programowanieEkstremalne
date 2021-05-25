@@ -27,6 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(originPatterns = "*")
 public class RecipeController {
     @Autowired
     private RecipeService recipeService;

@@ -14,6 +14,7 @@ import static org.springframework.http.MediaType.*;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(originPatterns = "*")
 public class ProductController {
     @Autowired
     private ProductService productService;
