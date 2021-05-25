@@ -1,6 +1,5 @@
 package com.example.demo.fridgemanager.dao;
 
-import com.example.demo.fridgemanager.dto.ProductDTO;
 import com.example.demo.fridgemanager.entities.Product;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +49,9 @@ public class ProductDAO {
     public Product save(Product product) {
         entityManager.persist(product);
         return product;
+    }
+
+    public Product getById(Long id) {
+        return entityManager.find(Product.class, id);
     }
 }

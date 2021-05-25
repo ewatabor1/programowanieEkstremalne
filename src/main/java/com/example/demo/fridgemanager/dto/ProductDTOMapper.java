@@ -20,6 +20,8 @@ public class ProductDTOMapper {
                 product.getName(),
                 product.getKcal(),
                 product.getExpiryDate(),
+                product.getQuantity(),
+                product.getMinQuantity(),
                 product.getProteins(),
                 product.getCarbohydrates(),
                 product.getFats()

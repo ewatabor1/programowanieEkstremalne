@@ -1,0 +1,14 @@
+!define TEST_SYSTEM {slim}
+!path /home/kamil/Documents/programowanieEkstremalne/build/classes/java/test
+!path /home/kamil/Downloads/fitnesse/spring-boot-starter-webflux-2.4.5.jar
+!path /home/kamil/Downloads/fitnesse/spring-webflux-5.3.6.jar
+!path /home/kamil/Downloads/fitnesse/spring-core-5.3.6.jar
+!path /home/kamil/Downloads/fitnesse/spring-web-5.3.6.jar
+
+
+!|import|
+|com.example.demo.fridgemanager.fitnesse|
+
+!|FitnesseExampleSpec|
+|numberOfProducts?|
+|1|

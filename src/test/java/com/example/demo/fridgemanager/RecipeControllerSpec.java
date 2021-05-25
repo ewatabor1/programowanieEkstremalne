@@ -62,7 +62,7 @@ class RecipeControllerSpec {
     @Test
     void shouldFindRecipe() throws Exception {
 
-        Product pepsi = new Product("pepsi", 250, LocalDate.now(),null,null,null);
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(),null,null,null,null,null);
         saveToDb(pepsi);
         Recipe recipe = new Recipe(
                 "student's breakfast",
@@ -84,8 +84,8 @@ class RecipeControllerSpec {
 
     @Test
     void createRecipe() throws Exception {
-        Product pepsi = new Product("pepsi", 250, LocalDate.now(), null,null,null);
-        Product sausage = new Product("sausage", 251, LocalDate.now(),  null,null,null);
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), null,null,null,null,null);
+        Product sausage = new Product("sausage", 251, LocalDate.now(),  null,null,null,null,null);
 
 
         saveToDb(pepsi);
@@ -121,8 +121,8 @@ class RecipeControllerSpec {
 
     @Test
     void updateRecipe() throws Exception{
-        Product pepsi = new Product("pepsi", 250, LocalDate.now(),  null,null,null);
-        Product sausage = new Product("sausage", 251, LocalDate.now(),  null,null,null);
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(),  null,null,null,null,null);
+        Product sausage = new Product("sausage", 251, LocalDate.now(),  null,null,null,null,null);
 
         saveToDb(pepsi);
         saveToDb(sausage);

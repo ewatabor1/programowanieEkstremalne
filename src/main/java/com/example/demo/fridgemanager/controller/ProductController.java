@@ -4,7 +4,10 @@ import com.example.demo.fridgemanager.dto.ProductDTO;
 import com.example.demo.fridgemanager.dto.ProductDTOMapper;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.services.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,5 +55,25 @@ public class ProductController {
     void deleteProduct(@PathVariable String name) {
         //delete product by name
         productService.deleteByName(name);
+    }
+
+    @PutMapping(value = "/products/supply/{id}/{quantity}", produces = APPLICATION_JSON_VALUE)
+    ProductDTO addProduct(@PathVariable Long id, @PathVariable Integer quantity) {
+        Product current = productService.getById(id);
+        ProductDTO updated = current.toDTO();
+        updated.setQuantity(current.getQuantity() + quantity);
+        return productService.update(id, updated).toDTO();
+    }
+
+    @PutMapping(value = "/products/consume/{id}/{quantity}", produces = APPLICATION_JSON_VALUE)
+    Object consumeProduct(@PathVariable Long id, @PathVariable Integer quantity) {
+        Product current = productService.getById(id);
+        ProductDTO updated = current.toDTO();
+        if(current.getQuantity() < quantity) {
+            String message = "There is no enough product: " + current.getName() + ". Available: " + current.getQuantity();
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
+        updated.setQuantity(current.getQuantity() - quantity);
+        return productService.update(id, updated).toDTO();
     }
 }

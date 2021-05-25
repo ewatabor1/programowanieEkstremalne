@@ -22,10 +22,8 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(ProductController.class)
@@ -40,7 +38,7 @@ class ProductControllerSpec {
 
     @Test
     void shouldAddProductToDatabase() throws Exception {
-        Product pepsi = new Product("pepsi", null, LocalDate.now(),1d,2d,3d);
+        Product pepsi = new Product("pepsi", null, LocalDate.now(), null, null, 1d,2d,3d);
 
         List<Product> allProducts = Collections.singletonList(pepsi);
 
@@ -59,7 +57,7 @@ class ProductControllerSpec {
 
     @Test
     void shouldDeleteProductFromDatabase() throws Exception {
-        Product pepsi = new Product("pepsi", 250, LocalDate.now(), null,null,null);
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null, null, null, null);
 
         List<Product> allProducts = Collections.singletonList(pepsi);
 
@@ -72,6 +70,39 @@ class ProductControllerSpec {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    void shouldSupplyProduct() throws Exception {
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null,null, null, null);
+
+        given(dao.getById(1L)).willReturn(pepsi);
+
+        mvc.perform(put("/api/products/supply/1/2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quantity", is(3)));
+    }
+
+    @Test
+    void shouldConsumeProduct() throws Exception {
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), 2, null, null, null, null);
+
+        given(dao.getById(1L)).willReturn(pepsi);
+
+        mvc.perform(put("/api/products/consume/1/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quantity", is(1)));
+    }
+
+    @Test
+    void shouldNotConsumeProduct() throws Exception {
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), 2, null, null, null, null);
+
+        given(dao.getById(1L)).willReturn(pepsi);
+
+        mvc.perform(put("/api/products/consume/1/3"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("There is no enough product: " + pepsi.getName() + ". Available: " + pepsi.getQuantity()));
     }
 
 }

@@ -1,5 +1,7 @@
 package com.example.demo.fridgemanager.entities;
 
+import com.example.demo.fridgemanager.dto.ProductDTO;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -11,6 +13,8 @@ public class Product {
     private String name;
     private Integer kcal;
     private LocalDate expiryDate;
+    private Integer quantity;
+    private Integer minQuantity;
     private Double proteins;
     private Double carbohydrates;
     private Double fats;
@@ -35,10 +39,12 @@ public class Product {
         return id;
     }
 
+    public void setId(Long id) { this.id = id; }
+
     public Product() {
     }
 
-    public Product(String name, Integer kcal, LocalDate expiryDate, Double proteins, Double carbohydrates, Double fats) {
+    public Product(String name, Integer kcal, LocalDate expiryDate, Integer quantity, Integer minQuantity, Double proteins, Double carbohydrates, Double fats) {
         this.name = name;
         this.expiryDate = expiryDate;
         this.proteins = proteins;
@@ -49,14 +55,45 @@ public class Product {
         } else {
             this.kcal = kcal;
         }
+        this.quantity = quantity;
+        if(this.quantity == null) this.quantity = 1;
+        this.minQuantity = minQuantity;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Integer getMinQuantity() {
+        return minQuantity;
+    }
+
+    public void setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
     }
 
     public String getName() {
         return name;
     }
 
-    public void update(String name) {
-        this.name = name;
+    public ProductDTO toDTO() {
+        ProductDTO dto =  new ProductDTO(
+            this.id,
+            this.name,
+            this.kcal,
+            this.expiryDate,
+            this.quantity,
+            this.minQuantity,
+            this.proteins,
+            this.carbohydrates,
+            this.fats
+        );
+        if(this.id != null) dto.setId(this.id);
+        return dto;
     }
 
     public Double getCarbohydrates() {
@@ -69,5 +106,17 @@ public class Product {
 
     public Double getProteins() {
         return proteins;
+    }
+
+    public void setProteins(Double proteins) {
+        this.proteins = proteins;
+    }
+
+    public void setCarbohydrates(Double carbohydrates) {
+        this.carbohydrates = carbohydrates;
+    }
+
+    public void setFats(Double fats) {
+        this.fats = fats;
     }
 }
