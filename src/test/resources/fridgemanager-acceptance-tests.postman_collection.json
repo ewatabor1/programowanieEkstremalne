@@ -1,0 +1,528 @@
+{
+	"info": {
+		"_postman_id": "ea4cc0b0-99f5-4a68-b444-8bb10b72c2bc",
+		"name": "fridgemanager-acceptance-tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create-products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create product\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.id).to.eql(1);",
+							"  pm.expect(responseJson.name).to.eql(\"Pepsi\");",
+							"  pm.expect(responseJson.quantity).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Pepsi\",\n  \"kcal\": 250,\n  \"expiryDate\": \"2021-05-05\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "supply-product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create product\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.name).to.eql(\"Pepsi\");",
+							"  pm.expect(responseJson.quantity).to.eql(3);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products/supply/1/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"supply",
+						"1",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consume-product-should-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create product\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.name).to.eql(\"Pepsi\");",
+							"  pm.expect(responseJson.quantity).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products/consume/1/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"consume",
+						"1",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consume-product-should-fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create product\", () => {",
+							"  pm.expect(pm.response.code).to.eql(400);",
+							"  pm.expect(pm.response.text()).to.eql('There is no enough product: Pepsi. Available: 1')",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products/consume/1/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"consume",
+						"1",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Return list of all products\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson).to.be.an('array');",
+							"  pm.expect(responseJson.length).to.eql(1);",
+							"  pm.expect(responseJson[0].name).to.eql('Pepsi');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "detele-product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete product\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-after-delete-product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Return list of all products\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson).to.be.an('array');",
+							"  pm.expect(responseJson.length).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-product-for-delete-by-name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create product\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.id).to.eql(2);",
+							"  pm.expect(responseJson.name).to.eql(\"Cola\");",
+							"  pm.expect(responseJson.quantity).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Cola\",\n  \"kcal\": 350,\n  \"expiryDate\": \"2021-05-06\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-product-by-name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete product\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products/delete_by_name/Cola",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"delete_by_name",
+						"Cola"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-after-delete-product-by-name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Return list of all products\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson).to.be.an('array');",
+							"  pm.expect(responseJson.length).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-grocery-list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create grocery list\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.id).to.eql(3);",
+							"  pm.expect(responseJson.name).to.eql(\"party grocery list\");",
+							"  pm.expect(responseJson.products.length).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"party grocery list\",\n  \"createdAt\": \"2021-05-16\",\n  \"products\": [\n    {\n      \"product\": \"pepsi\",\n      \"quantity\": 3\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "detele-grocery-list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete recipe\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-after-delete-grocery-list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Return list of all grocery lists\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson).to.be.an('array');",
+							"  pm.expect(responseJson.length).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
