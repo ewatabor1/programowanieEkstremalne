@@ -1,8 +1,10 @@
 package com.example.demo.fridgemanager.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -20,14 +22,17 @@ import static org.hibernate.cfg.Environment.getProperties;
 @EnableJpaRepositories
 @EnableTransactionManagement
 public class DatabaseConfig {
+    @Autowired
+    private Environment environment;
     @Bean(name = "masterDataSource")
     @Primary
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:mem:xp_database;DB_CLOSE_DELAY=-1;MODE=MYSQL");
-        dataSource.setUsername("xp");
-        dataSource.setPassword("xp");
+        String driverName = environment.getProperty("database.driver");
+        dataSource.setDriverClassName(driverName);
+        dataSource.setUrl(environment.getProperty("database.url"));
+        dataSource.setUsername(environment.getProperty("database.username"));
+        dataSource.setPassword(environment.getProperty("database.password"));
 
         return dataSource;
     }
@@ -46,10 +51,10 @@ public class DatabaseConfig {
 
     public HibernateJpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        jpaVendorAdapter.setDatabase(Database.H2);
+        jpaVendorAdapter.setDatabase(Database.MYSQL);
         jpaVendorAdapter.setGenerateDdl(true);
         jpaVendorAdapter.setShowSql(true);
-        jpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQL5Dialect");
+        jpaVendorAdapter.setDatabasePlatform(environment.getProperty("hibernate.dialect"));
         return jpaVendorAdapter;
     }
 
