@@ -1,9 +1,17 @@
 import React from 'react'
 import {render, waitFor,cleanup} from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import FridgeScreen from '../../sites/FridgeScreen'
 import mockedAxios from 'axios'
-
+import axiosMock from 'axios'
 afterEach(cleanup);
+
+it('fetches amd display data',async()=>{
+ const {getByTestId} = render(<FridgeScreen/>);
+
+ expect(getByTestId)
+});
+
 
 test('mocking axios request', async () => {
     const data = {
@@ -21,7 +29,7 @@ test('mocking axios request', async () => {
     
         ]
     }
-    mockedAxios.get.mockResolvedValueOnce(data);
-    const {getByText} = render(<FridgeScreen/>);
-        expect(getByText).toMatch('Cola')
+    // mockedAxios.get.mockResolvedValueOnce(data);
+    // const {getByText} = render(<FridgeScreen/>);
+    //     expect(getByText).toMatch('Cola')
 })

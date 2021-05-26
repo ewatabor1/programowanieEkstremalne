@@ -2,7 +2,6 @@ import "../App.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductList from "../components/productList";
-import ListInput from "../components/listInput";
 const LOCAL_URL = "http://localhost:8080/api/grocery-lists";
 const initialState = [
   { id: 1, value: 2, name: "Banan" },
@@ -17,6 +16,7 @@ function Home() {
   const [productName, setProductName] = useState("");
   const [test, setTest] = useState([]);
   const [listName, setListName] = useState("");
+  const [state, setState] = useState(initialState)
   let valueToRemove = "";
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function Home() {
         console.log(test);
       })
       .catch((err) => console.log(err.message));
-  }, []);
+  }, [state]);
 
   const handleChange = (event) => {
     let nam = event.target.name;
@@ -54,15 +54,7 @@ function Home() {
           "Content-Type": "application/json",
         },
       })
-      .then(
-        axios
-          .get(LOCAL_URL)
-          .then((response) => {
-            setTest(response.data);
-            console.log(test);
-          })
-          .catch((err) => console.log(err.message))
-      );
+      setState(state+1)
   };
 
   const handleRemove = async () => {
@@ -79,11 +71,23 @@ function Home() {
   };
   return (
     <div className="App-main">
-    <ListInput/>
-     <ProductList test={test} handleListClicked={handleListClicked}/>
-     <div>
-        <button onClick={handleRemove}>Usuń produkt</button>
+    <div className="App-firstpart">
+        <form className="form-namelist">
+          <p>Nazwa listy:</p>
+          <input type="text" name="listName" onChange={handleChange} />
+        </form>
+        <form className="form-listitem">
+          <p>Nazwa produktu:</p>
+          <input type="text" name="productName" onChange={handleChange} />
+          <p>Ilość produktu:</p>
+          <input type="text" name="productValue" onChange={handleChange} />
+        </form>
+        <button onClick={handleSubmit}>Dodaj produkt</button>
       </div>
+     <ProductList test={test} handleListClicked={handleListClicked}/>
+      <div>
+         <button onClick={handleRemove}>Usuń produkt</button>
+       </div>
     </div>
   );
 }
