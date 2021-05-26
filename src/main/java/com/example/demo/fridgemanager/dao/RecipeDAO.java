@@ -32,6 +32,12 @@ public class RecipeDAO {
 
     @Transactional
     public void delete(Long id) {
+        entityManager.createQuery("DELETE FROM RecipeStep  WHERE recipe.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+        entityManager.createQuery("DELETE FROM RecipeIngredient  WHERE recipe.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
         entityManager.createQuery("DELETE FROM Recipe WHERE id =:id")
                 .setParameter("id", id)
                 .executeUpdate();
