@@ -18,6 +18,7 @@ const Fridge = () => {
   const [productName, setProductName] = useState("");
   const [test, setTest] = useState([]);
   const [testRemove, setTestRemove] = useState('')
+  const [state, setState] = useState(0)
   let valueToRemove = "";
   useEffect(() => {
     axios
@@ -27,7 +28,7 @@ const Fridge = () => {
         console.log(data);
       })
       .catch((err) => console.log(err.message));
-  }, []);
+  }, [state]);
 
   const handleChange = (event) => {
     let nam = event.target.name;
@@ -66,28 +67,33 @@ const Fridge = () => {
     console.log(valueToRemove);
     setTestRemove(value)
   };
+
+  const updateState = InputState=>{
+    setState(InputState)
+  }
   return (
     <div className="fridge-container">
       <div>
         <div className="fridge-title">
           <h1>Lodówka</h1>
         </div>
-        <FridgeInput LOCAL_URL={LOCAL_URL} />
-        <FridgeDelete />
-        <FridgeUpdate valueToRemove={testRemove} LOCAL_URL={LOCAL_URL} />
+        <FridgeInput LOCAL_URL={LOCAL_URL} updateState={updateState} />
+        <FridgeDelete LOCAL_URL={LOCAL_URL} updateState={updateState} testRemove={testRemove} />
+        <FridgeUpdate valueToRemove={testRemove} updateState={updateState} LOCAL_URL={LOCAL_URL} />
       </div>
       <div >
         <ul className="fridge-display">
           {data.map((value) => {
+            console.log(value.quantity)
             return (
               <li key={value.id} className="list-fridge">
                 <button
                   className="list-button"
                   onClick={() => handleListClicked(value.id)}
-                  data-testid={value.value}
+                  data-testid={value.quantity}
                 >
                   <p>{value.name}</p>
-                  <p>{"ilość: " + value.value}</p>
+                  <p>{"ilość: " + value.quantity}</p>
                 </button>
               </li>
             );

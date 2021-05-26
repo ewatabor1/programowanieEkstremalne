@@ -1,40 +1,39 @@
 import React, { useState } from "react";
 import "./fridgeOptions.css";
 import axios from "axios";
-const FridgeInput = ({ LOCAL_URL }) => {
+const FridgeInput = ({ LOCAL_URL, updateState }) => {
   const [productName, setProductName] = useState("");
   const [productValue, setProductValue] = useState("");
   const [productExpire, setProductExpire] = useState("");
-    const [productQuantity, setProductQuantity] = useState('')
+  const [productQuantity, setProductQuantity] = useState("");
   const handleChange = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
     if (nam === "productName") {
       setProductName(val);
-    } else{
+    } else {
       setProductExpire(val);
     }
-    
   };
   const handleChange2 = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
     if (nam === "productValue") {
-        const value = parseInt(val, 10);
+      const value = parseInt(val, 10);
       setProductValue(value);
-    } else{
-        const value = parseInt(val, 10);
+    } else {
+      const value = parseInt(val, 10);
       setProductQuantity(value);
-    } 
-    
+    }
   };
   const handleSubmit = async () => {
+    console.log(LOCAL_URL)
     const json = JSON.stringify({
-        name: productName,
-        kcal: productValue,
-        expiryDate: productExpire,
-        quantity: productQuantity,
-        minQuantity:2
+      name: productName,
+      kcal: productValue,
+      expiryDate: productExpire,
+      quantity: productQuantity,
+      minQuantity: 2,
     });
     console.log(json);
     await axios
@@ -43,7 +42,9 @@ const FridgeInput = ({ LOCAL_URL }) => {
           "Content-Type": "application/json",
         },
       })
-      .then((response) => console.log(response,json));
+      .then((response) => console.log(response, json));
+
+    updateState(productQuantity)
   };
 
   return (
