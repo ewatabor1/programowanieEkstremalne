@@ -58,11 +58,10 @@ function Home() {
   };
 
   const handleRemove = async () => {
-    const newArray = Data.filter((item) => item.id !== valueToRemove);
-    setData(newArray);
     await axios
-      .delete(LOCAL_URL + { valueToRemove })
+      .delete(LOCAL_URL + `/${valueToRemove}`)
       .then((response) => console.log(response));
+      setState(state+1)
   };
 
   const handleListClicked = (value) => {

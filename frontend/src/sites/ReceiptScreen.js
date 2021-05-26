@@ -108,7 +108,7 @@ const ReceiptScreen = () => {
                     data-testid={value.value}
                   >
                     <p>{value.name}</p>
-                    <p>{"ilość: " + value.value}</p>
+                    <p>{"ilość: " + value.quantity}</p>
                   </button>
                 </li>
               );
@@ -116,7 +116,7 @@ const ReceiptScreen = () => {
           </div>
         </div>
         <div className="Receipt-actualproducts">
-          <h2>{"Nazwa produktu " + productName}</h2>
+          <h2>{"Nazwa przepisu " + productName}</h2>
           <h2>Wybrane produkty:</h2>
           {products.map((value) => {
             return (
