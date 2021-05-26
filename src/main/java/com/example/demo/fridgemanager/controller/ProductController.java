@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,11 +70,20 @@ public class ProductController {
     Object consumeProduct(@PathVariable Long id, @PathVariable Integer quantity) {
         Product current = productService.getById(id);
         ProductDTO updated = current.toDTO();
+        String message = "Reduced product quantity";
         if(current.getQuantity() < quantity) {
-            String message = "There is no enough product: " + current.getName() + ". Available: " + current.getQuantity();
+            message = "There is no enough product: " + current.getName() + ". Available: " + current.getQuantity();
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
         updated.setQuantity(current.getQuantity() - quantity);
-        return productService.update(id, updated).toDTO();
+        if(updated.getMinQuantity()!=null && updated.getMinQuantity() > updated.getQuantity()) {
+            message = "Quantity of product: " + current.getName() + " is lower than minimal quantity.";
+        }
+        String finalMessage = message;
+        return new HashMap<String, Object>()
+        {{
+            put("message", finalMessage);
+            put("product", productService.update(id, updated).toDTO());
+        }};
     }
 }
