@@ -54,7 +54,7 @@ public class DatabaseConfig {
         jpaVendorAdapter.setDatabase(Database.MYSQL);
         jpaVendorAdapter.setGenerateDdl(true);
         jpaVendorAdapter.setShowSql(true);
-        jpaVendorAdapter.setDatabasePlatform(environment.getProperty("hibernate.dialect"));
+        jpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQL5Dialect");
         return jpaVendorAdapter;
     }
 

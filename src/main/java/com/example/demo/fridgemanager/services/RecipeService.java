@@ -2,12 +2,17 @@ package com.example.demo.fridgemanager.services;
 
 import com.example.demo.fridgemanager.dao.ProductDAO;
 import com.example.demo.fridgemanager.dao.RecipeDAO;
+import com.example.demo.fridgemanager.dto.ProductDTO;
 import com.example.demo.fridgemanager.dto.RecipeDTO;
 import com.example.demo.fridgemanager.dto.RecipeIngredientDTO;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.entities.Recipe;
 import com.example.demo.fridgemanager.exceptions.EntityNotFoundException;
+import com.example.demo.fridgemanager.utils.JsonLoader;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,6 +26,20 @@ public class RecipeService {
     private RecipeDAO dao;
     @Autowired
     private ProductDAO productDao;
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    public void initialize(Environment environment) throws JsonProcessingException {
+        String initialRecipesFile = environment.getProperty("initial_recipes");
+        if (initialRecipesFile != null) {
+            List<RecipeDTO> recipes = JsonLoader.readJsonListFromFile(initialRecipesFile,RecipeDTO.class, objectMapper);
+            for (RecipeDTO recipe : recipes) {
+                if (dao.findByName(recipe.getName()).isEmpty())
+                    save(recipe);
+            }
+        }
+    }
 
     public List<Recipe> findAll() {
         List<Recipe> recipes = dao.findAll();
@@ -35,24 +54,24 @@ public class RecipeService {
 
     public List<Recipe> findAvailable() {
         List<Product> allProducts = productDao.findAll();
-        Map<Product,BigDecimal> availableProducts = new HashMap<>();
+        Map<Product, BigDecimal> availableProducts = new HashMap<>();
         for (Product product : allProducts) {
             // TODO: 16.05.2021 change to check state of the product instead of adding 1
             BigDecimal state = availableProducts.get(product);
-            if(state!=null){
-                availableProducts.put(product,state.add(BigDecimal.ONE));
-            }else
-                availableProducts.put(product,BigDecimal.ONE);
+            if (state != null) {
+                availableProducts.put(product, state.add(BigDecimal.ONE));
+            } else
+                availableProducts.put(product, BigDecimal.ONE);
         }
         List<Recipe> result = new ArrayList<>();
         L0:
         for (Recipe recipe : dao.findAll()) {
-            Map<Product,BigDecimal> productAmounts = recipe.getProductsWithAmounts();
+            Map<Product, BigDecimal> productAmounts = recipe.getProductsWithAmounts();
             for (Map.Entry<Product, BigDecimal> entry : productAmounts.entrySet()) {
                 Product product = entry.getKey();
                 BigDecimal requiredAmount = entry.getValue();
-                BigDecimal availableAmount = availableProducts.getOrDefault(product,BigDecimal.ZERO);
-                if(requiredAmount.compareTo(availableAmount) > 0)
+                BigDecimal availableAmount = availableProducts.getOrDefault(product, BigDecimal.ZERO);
+                if (requiredAmount.compareTo(availableAmount) > 0)
                     continue L0;
 
             }
@@ -81,12 +100,18 @@ public class RecipeService {
     }
 
     private Recipe updateInternal(Recipe recipe, RecipeDTO dto) {
-        Set<Long> productIds = dto.getIngredients().stream().map(RecipeIngredientDTO::getProductId).collect(Collectors.toSet());
+        Set<Long> productIds = dto.getIngredients().stream().map(RecipeIngredientDTO::getProductId).filter(Objects::nonNull).collect(Collectors.toSet());
+        Set<String> productNames = dto.getIngredients().stream().map(RecipeIngredientDTO::getProductName).filter(Objects::nonNull).collect(Collectors.toSet());
         List<Product> products = productDao.findByIds(productIds);
+        products.addAll(productDao.findByNames(productNames));
         Map<Product, BigDecimal> ingredientMap = new HashMap<>();
         if (dto.getIngredients() != null) {
             for (RecipeIngredientDTO ing : dto.getIngredients()) {
-                Product product = products.stream().filter(p -> p.getId().equals(ing.getProductId())).findFirst().orElseThrow(() -> new EntityNotFoundException(Product.class, ing.getProduct().getId()));
+                Product product = products.stream()
+                        .filter(p -> p.getId().equals(ing.getProductId()))
+                        .findFirst().orElseGet(() ->
+                                products.stream().filter(p -> p.getName().equals(ing.getProductName()))
+                                        .findFirst().orElseThrow(() -> new EntityNotFoundException(Product.class, ing.getProduct().getId())));
                 ingredientMap.put(product, ing.getAmount());
             }
         }

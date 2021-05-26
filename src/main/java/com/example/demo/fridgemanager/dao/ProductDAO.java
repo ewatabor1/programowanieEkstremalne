@@ -23,9 +23,13 @@ public class ProductDAO {
                 .setParameter("name", name)
                 .getResultList();
     }
-
+    public List<Product> findByNames(Collection<String> names) {
+        return entityManager.createQuery("SELECT p FROM Product p WHERE p.name in :names")
+                .setParameter("names",names)
+                .getResultList();
+    }
     public List<Product> findByIds(Collection<Long> ids) {
-        return entityManager.createQuery("SELECT p FROM Product p WHERE id in :ids")
+        return entityManager.createQuery("SELECT p FROM Product p WHERE p.id in :ids")
                 .setParameter("ids",ids)
                 .getResultList();
     }

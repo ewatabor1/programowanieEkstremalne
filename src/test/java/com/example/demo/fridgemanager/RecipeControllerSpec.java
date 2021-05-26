@@ -95,8 +95,8 @@ class RecipeControllerSpec {
                 null,
                 Arrays.asList("drink pepsi"),
                 Arrays.asList(
-                        new RecipeIngredientDTO(null, pepsi.getId(), BigDecimal.ONE),
-                        new RecipeIngredientDTO(null, sausage.getId(), BigDecimal.valueOf(4))
+                        new RecipeIngredientDTO(null,null, pepsi.getId(), BigDecimal.ONE),
+                        new RecipeIngredientDTO(null, null,sausage.getId(), BigDecimal.valueOf(4))
                 ),
                 "student's breakfast",
                 "typical breakfast"
@@ -149,8 +149,8 @@ class RecipeControllerSpec {
                 null,
                 Arrays.asList("drink pepsi"),
                 Arrays.asList(
-                        new RecipeIngredientDTO(null, pepsi.getId(), BigDecimal.ONE),
-                        new RecipeIngredientDTO(null, sausage.getId(), BigDecimal.valueOf(4))
+                        new RecipeIngredientDTO(null, null,pepsi.getId(), BigDecimal.ONE),
+                        new RecipeIngredientDTO(null, null,sausage.getId(), BigDecimal.valueOf(4))
                 ),
                 "student's breakfast",
                 "typical breakfast"

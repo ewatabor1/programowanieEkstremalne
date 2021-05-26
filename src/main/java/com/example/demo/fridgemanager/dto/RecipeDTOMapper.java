@@ -20,7 +20,7 @@ public class RecipeDTOMapper {
         return new RecipeDTO(
                 recipe.getId(),
                 recipe.getSteps().stream().map(step ->step.getInstruction()).collect(Collectors.toList()),
-                recipe.getIngredients().stream().map(ing ->new RecipeIngredientDTO(productDTOMapper.mapToDTO(ing.getProduct()), ing.getProduct().getId(), ing.getAmount())).collect(Collectors.toList()),
+                recipe.getIngredients().stream().map(ing ->new RecipeIngredientDTO(productDTOMapper.mapToDTO(ing.getProduct()), ing.getProduct().getName(),ing.getProduct().getId(), ing.getAmount())).collect(Collectors.toList()),
                 recipe.getName(),
                 recipe.getDescription()
         );

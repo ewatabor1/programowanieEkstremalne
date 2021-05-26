@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Kanapka z masłem",
+    "ingredients": [
+      {
+        "productName": "Masło",
+        "amount": 0.1
+      },
+      {
+        "productName": "Chleb",
+        "amount": 1.5
+      }
+    ]
+  }
+]

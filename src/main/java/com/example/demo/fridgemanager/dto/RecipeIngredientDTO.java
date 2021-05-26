@@ -6,8 +6,8 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class RecipeIngredientDTO {
-    @NotNull
     private Long productId;
+    private String productName;
     private ProductDTO product;
     @NotNull
     @Positive
@@ -16,10 +16,19 @@ public class RecipeIngredientDTO {
     public RecipeIngredientDTO() {
     }
 
-    public RecipeIngredientDTO(ProductDTO product, Long productId, BigDecimal amount) {
+    public RecipeIngredientDTO(ProductDTO product, String productName,Long productId, BigDecimal amount) {
         this.productId = productId;
         this.amount = amount;
         this.setProduct(product);
+        this.productName = productName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Long getProductId() {

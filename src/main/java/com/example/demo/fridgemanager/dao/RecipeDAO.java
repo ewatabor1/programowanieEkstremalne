@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -29,7 +30,11 @@ public class RecipeDAO {
             return null;
         }
     }
-
+    public List<Recipe> findByName(String name) {
+            return entityManager.createQuery("SELECT r FROM Recipe r LEFT JOIN RecipeIngredient  ri ON ri.recipe.id = r.id LEFT JOIN RecipeStep rs ON rs.recipe.id = r.id WHERE UPPER(r.name) = UPPER(:name)")
+                    .setParameter("name", name)
+                    .getResultList();
+    }
     @Transactional
     public void delete(Long id) {
         entityManager.createQuery("DELETE FROM RecipeStep  WHERE recipe.id = :id")
@@ -49,5 +54,7 @@ public class RecipeDAO {
         entityManager.persist(recipe);
         return recipe;
     }
+
+
 }
 

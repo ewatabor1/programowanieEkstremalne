@@ -1,18 +1,41 @@
 package com.example.demo.fridgemanager.services;
 
+import com.example.demo.fridgemanager.FridgeManagerApp;
 import com.example.demo.fridgemanager.dao.ProductDAO;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.dto.ProductDTO;
+import com.example.demo.fridgemanager.utils.JsonLoader;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
 public class ProductService {
     @Autowired
     private ProductDAO dao;
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    public void initialize(Environment environment) throws JsonProcessingException {
+        String initialProductsFile = environment.getProperty("initial_products");
+        if (initialProductsFile != null) {
+            List<ProductDTO> products = JsonLoader.readJsonListFromFile(initialProductsFile, ProductDTO.class, objectMapper);
+            for (ProductDTO product : products) {
+                if (dao.findByName(product.getName()).isEmpty())
+                    save(product);
+            }
+        }
+    }
+
 
     public List<Product> findAll() {
         List<Product> products = dao.findAll();
