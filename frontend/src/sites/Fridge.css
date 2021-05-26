@@ -1,0 +1,12 @@
+.Fridge-title {
+    margin:50px;
+    align-content: center;
+}
+
+.Fridge-list {
+margin:0 8% 0 8%;
+}
+
+.Fridge-item {
+    font-size: 20px;
+}

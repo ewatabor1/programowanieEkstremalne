@@ -1,0 +1,43 @@
+
+.App-main {
+  
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:100vw;
+}
+
+.App-firstpart{
+  margin-bottom: 5%;
+  display: flex;
+  height:30vh;
+  width:100vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-namelist {
+width:40%;
+}
+
+.form-listitem {
+  margin-right: 20px;
+}
+
+.list-grocery {
+  display: flex;
+  flex-direction: row;
+}
+
+.list-button {
+  display: flex;
+  flex-direction: row;
+  width:150px;
+  height:60px;
+  justify-content:space-around;
+  background:#55c7fc;
+  align-items:center;
+  margin-top:10px;
+  margin-bottom: 10px;
+}
