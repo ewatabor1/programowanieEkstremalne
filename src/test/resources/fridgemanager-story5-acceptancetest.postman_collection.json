@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "41680d72-53ef-4527-a9b6-f8a441d9308a",
+		"name": "Story 5 - Calories",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add product - calories only",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add product\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"\t\tconst responseJson = pm.response.json();\r",
+							"\t\tpm.expect(responseJson.name).to.eql(\"Milk\");\r",
+							"\t\tpm.expect(responseJson.quantity).to.eql(5);\r",
+							"        pm.expect(responseJson.minQuantity).to.eql(2);\r",
+							"        pm.collectionVariables.set(\"idOfProduct\", responseJson.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Milk\",\r\n  \"quantity\": 5,\r\n  \"minQuantity\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product - calories calculated",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add product\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"\t\tconst responseJson = pm.response.json();\r",
+							"\t\tpm.expect(responseJson.name).to.eql(\"Milk\");\r",
+							"\t\tpm.expect(responseJson.quantity).to.eql(5);\r",
+							"        pm.expect(responseJson.minQuantity).to.eql(2);\r",
+							"        pm.collectionVariables.set(\"idOfProduct\", responseJson.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Milk\",\r\n  \"quantity\": 5,\r\n  \"minQuantity\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product - not enough data to calculate calories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add product\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"\t\tconst responseJson = pm.response.json();\r",
+							"\t\tpm.expect(responseJson.name).to.eql(\"Milk\");\r",
+							"\t\tpm.expect(responseJson.quantity).to.eql(5);\r",
+							"        pm.expect(responseJson.minQuantity).to.eql(2);\r",
+							"        pm.collectionVariables.set(\"idOfProduct\", responseJson.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Milk\",\r\n  \"quantity\": 5,\r\n  \"minQuantity\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "productId",
+			"value": ""
+		},
+		{
+			"key": "idOfProduct",
+			"value": ""
+		}
+	]
+}
