@@ -1,0 +1,232 @@
+{
+  "info": {
+    "_postman_id": "cbf3a527-cb89-4a55-86c7-77b03ab71bfd",
+    "name": "Story 7 - Enter/display recipes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add Product-Pepsi",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Add Product-sausage\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    const responseJson = pm.response.json();\r",
+              "    pm.expect(responseJson.name).to.eql(\"Pepsi\");\r",
+              "    pm.expect(responseJson.quantity).to.eql(1);\r",
+              "    pm.collectionVariables.set(\"idOfProduct1\",responseJson.id);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "name",
+              "value": "\"Pepsi\"",
+              "type": "text"
+            },
+            {
+              "key": "kcal",
+              "value": "250",
+              "type": "text"
+            },
+            {
+              "key": "expiryDate",
+              "value": "\"2021-05-31\"",
+              "type": "text"
+            },
+            {
+              "key": "quantity",
+              "value": "1",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "localhost:8080/api/products",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Product-sausage",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Add Product-Pepsi\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    const responseJson = pm.response.json();\r",
+              "    pm.expect(responseJson.name).to.eql(\"Pepsi\");\r",
+              "    pm.expect(responseJson.quantity).to.eql(1);\r",
+              "    pm.collectionVariables.set(\"idOfProduct\",responseJson.id);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "name",
+              "value": "\"Pepsi\"",
+              "type": "text"
+            },
+            {
+              "key": "kcal",
+              "value": "250",
+              "type": "text"
+            },
+            {
+              "key": "expiryDate",
+              "value": "\"2021-05-31\"",
+              "type": "text"
+            },
+            {
+              "key": "quantity",
+              "value": "1",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "localhost:8080/api/products",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Recipe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Add recipe\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    const responseJson = pm.response.json();\r",
+              "    pm.expect(responseJson.name).to.eql(\"student's breakfast\");\r",
+              "    pm.expect(responseJson.ingredients).to.eql([pm.collectionVariables.get(\"Ingredient1\"),pm.collectionVariables.get(\"Ingredient1\")]);\r",
+              "    pm.collectionVariables.set(\"recipe\",responseJson.id);\r",
+              "\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"student's breakfast\",\r\n    \"description\": \"thats unhealthy\",\r\n    \"steps\": [\"heat sausage\",\"drink Pepsi\"],\r\n    \"ingredients\":[{{Ingredient1}},{{Ingredient2}}]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/recipes",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "recipes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Available recipes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Available recipes\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    var recipeAdded = ()=>{\r",
+              "        for( var recipe in pm.response){\r",
+              "            if(recipe.id == pm.collectionVariables.get(\"recipe\"))\r",
+              "                return true\r",
+              "        } \r",
+              "        return false;\r",
+              "    }\r",
+              "    pm.expect(recipeAdded()).to.eql(true);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/recipes/available",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "recipes",
+            "available"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "Ingredient1",
+      "value": ""
+    },
+    {
+      "key": "Ingredient2",
+      "value": ""
+    },
+    {
+      "key": "recipe",
+      "value": ""
+    }
+  ]
+}
