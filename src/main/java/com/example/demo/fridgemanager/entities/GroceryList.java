@@ -1,11 +1,13 @@
 package com.example.demo.fridgemanager.entities;
 
+import com.example.demo.fridgemanager.dto.GroceryListDTO;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class GroceryList {
+public class GroceryList implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -54,5 +56,9 @@ public class GroceryList {
 
     public void setProducts(List<GroceryEntry> products) {
         this.products = products;
+    }
+
+    public GroceryListDTO toDTO() {
+        return new GroceryListDTO(this.id, this.name, this.createdAt, this.products);
     }
 }

@@ -44,4 +44,18 @@ public class GroceryEntry {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof GroceryEntry)) {
+            return false;
+        }
+
+        GroceryEntry ge = (GroceryEntry) o;
+        return quantity.equals(ge.getQuantity())
+                && getProduct().equals(ge.getProduct());
+    }
 }

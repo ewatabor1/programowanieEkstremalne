@@ -1,5 +1,7 @@
 package com.example.demo.fridgemanager.dto;
 
+import com.example.demo.fridgemanager.entities.GroceryEntry;
+
 public class GroceryEntryDTO {
     private Long id;
     private String product;
@@ -33,5 +35,9 @@ public class GroceryEntryDTO {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public GroceryEntry toEntity() {
+        return new GroceryEntry(product, quantity);
     }
 }

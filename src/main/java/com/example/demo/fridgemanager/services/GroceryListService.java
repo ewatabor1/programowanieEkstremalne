@@ -2,7 +2,9 @@ package com.example.demo.fridgemanager.services;
 
 import com.example.demo.fridgemanager.dao.GroceryListDAO;
 import com.example.demo.fridgemanager.dto.GroceryListDTO;
+import com.example.demo.fridgemanager.dto.ProductDTO;
 import com.example.demo.fridgemanager.entities.GroceryList;
+import com.example.demo.fridgemanager.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,10 @@ public class GroceryListService {
         return dao.findByName(name);
     }
 
+    public GroceryList getById(Long id) {
+        return dao.getById(id);
+    }
+
     @Transactional
     public void delete(Long id) {
         dao.delete(id);
@@ -38,4 +44,16 @@ public class GroceryListService {
         dao.save(product);
         return product;
     }
+
+    @Transactional
+    public GroceryList update(Long id, GroceryListDTO dto) {
+        GroceryList entityToUpdate = dao.getById(id);
+        if (entityToUpdate != null) {
+            if (dto.getName() != null) entityToUpdate.setName(dto.getName());
+            if (dto.getProducts() != null) entityToUpdate.setProducts(dto.getProducts());
+            return dao.save(entityToUpdate);
+        }
+        return entityToUpdate;
+    }
+
 }

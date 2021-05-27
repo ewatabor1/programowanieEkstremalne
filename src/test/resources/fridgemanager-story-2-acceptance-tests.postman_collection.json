@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "ea4cc0b0-99f5-4a68-b444-8bb10b72c2bc",
+		"name": "fridgemanager-story-2-acceptance-tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create-grocery-list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create grocery list\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.id).to.eql(1);",
+							"  pm.expect(responseJson.name).to.eql(\"party grocery list\");",
+							"  pm.expect(responseJson.products.length).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"party grocery list\",\n  \"createdAt\": \"2021-05-16\",\n  \"products\": [\n    {\n      \"product\": \"pepsi\",\n      \"quantity\": 3\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add-item-to-grocery-list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create grocery list\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.id).to.eql(1);",
+							"  pm.expect(responseJson.name).to.eql(\"party grocery list\");",
+							"  pm.expect(responseJson.products.length).to.eql(2);",
+							"  pm.expect(responseJson.products[1].product).to.eql('kolka');",
+							"  pm.expect(responseJson.products[1].quantity).to.eql(2);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"product\": \"kolka\",\n    \"quantity\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists/1/add-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists",
+						"1",
+						"add-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove-item-from-grocery-list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete entry from grocery list\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.products.length).to.eql(1);",
+							"  pm.expect(responseJson.products[0].product).to.eql('kolka');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists/1/remove-item/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists",
+						"1",
+						"remove-item",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "detele-grocery-list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete grocery list\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-after-delete-grocery-list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Return list of all grocery lists\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson).to.be.an('array');",
+							"  pm.expect(responseJson.length).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-grocery-list-to-remove-by-name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create grocery list\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.id).to.eql(4);",
+							"  pm.expect(responseJson.name).to.eql(\"every day shopping\");",
+							"  pm.expect(responseJson.products.length).to.eql(2);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"every day shopping\",\n  \"createdAt\": \"2021-05-24\",\n  \"products\": [\n    {\n      \"product\": \"milk\",\n      \"quantity\": 1\n    },\n    {\n      \"product\": \"egg\",\n      \"quantity\": 1\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "detele-grocery-list-by-name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete grocery list\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists/delete-by-name/every day shopping",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists",
+						"delete-by-name",
+						"every day shopping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-after-delete-by-name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Return list of all grocery lists\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson).to.be.an('array');",
+							"  pm.expect(responseJson.length).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/grocery-lists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"grocery-lists"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
