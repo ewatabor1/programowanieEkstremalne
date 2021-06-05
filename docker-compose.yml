@@ -1,0 +1,23 @@
+version: "3.3"
+
+services:
+
+  api:
+    image: fridge-manager-backend:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - fridge-manager-network
+
+  ui:
+    image: fridge-manager-front:latest
+    ports:
+      - "80:80"
+    networks:
+      - fridge-manager-network
+
+networks:
+  fridge-manager-network:
+    driver: bridge
+    ipam:
+      driver: default

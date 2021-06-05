@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/api")
+@CrossOrigin(originPatterns = "*")
 public class GroceryListController {
     @Autowired
     private GroceryListService groceryListService;
