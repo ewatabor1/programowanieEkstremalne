@@ -1,0 +1,434 @@
+{
+	"info": {
+		"_postman_id": "1250811d-949b-47af-901c-4b2fdd1cf2d3",
+		"name": "Story 10 - Monitoring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create product\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.name).to.eql(\"Ciastko\");\r",
+							"  pm.collectionVariables.set(\"productName\"+responseJson.id, responseJson.name);\r",
+							"  pm.collectionVariables.set(responseJson.name+\"Quantity\", responseJson.quantity);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Ciastko\",\r\n  \"kcal\": 300,\r\n  \"expiryDate\": \"2020-01-01\",\r\n  \"quantity\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if fridge has product to display",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check fridge contents\", () => {\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const product = responseJson.find\r",
+							"        (m => m.name === pm.collectionVariables.get(\"productName1\"));\r",
+							"    pm.expect(product.name).to.eql(pm.collectionVariables.get(\"productName1\"));\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add second product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create product\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.name).to.eql(\"Masło\");\r",
+							"  pm.expect(responseJson.quantity).to.eql(1);\r",
+							"  pm.collectionVariables.set(\"productName\"+responseJson.id, responseJson.name);\r",
+							"  pm.collectionVariables.set(responseJson.name+\"Quantity\", responseJson.quantity);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Masło\",\r\n  \"kcal\": 400,\r\n  \"expiryDate\": \"2021-07-02\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add third product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create product\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.name).to.eql(\"Mleko\");\r",
+							"  pm.expect(responseJson.quantity).to.eql(1);\r",
+							"  pm.collectionVariables.set(\"productName\"+responseJson.id, responseJson.name);\r",
+							"  pm.collectionVariables.set(responseJson.name+\"Quantity\", responseJson.quantity);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Mleko\",\r\n  \"kcal\": 100,\r\n  \"expiryDate\": \"2021-06-05\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all the products in fridge",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Return list of all products\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson).to.be.an('array');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete product\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products/delete_by_name/{{productName1}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"delete_by_name",
+						"{{productName1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all the products in fridge after deleteing one",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Return list of all products\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson).to.be.an('array');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete products Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete product\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products/delete_by_name/{{productName2}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"delete_by_name",
+						"{{productName2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete products Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete product\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products/delete_by_name/{{productName3}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"delete_by_name",
+						"{{productName3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if fridge is empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check fridge contents\", () => {\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"\tpm.expect(pm.response.json().length).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "productName4",
+			"value": ""
+		},
+		{
+			"key": "CiastkoQuantity",
+			"value": ""
+		},
+		{
+			"key": "productName1",
+			"value": ""
+		},
+		{
+			"key": "productName2",
+			"value": ""
+		},
+		{
+			"key": "MasłoQuantity",
+			"value": ""
+		},
+		{
+			"key": "productName3",
+			"value": ""
+		},
+		{
+			"key": "MlekoQuantity",
+			"value": ""
+		},
+		{
+			"key": "productName5",
+			"value": ""
+		},
+		{
+			"key": "productName6",
+			"value": ""
+		}
+	]
+}

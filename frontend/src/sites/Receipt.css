@@ -16,16 +16,25 @@
 .Receipt-products {
     display: flex;
     flex-direction: column;
-    width:50%;
-    margin:5%;
-    height:40%;
+    width:35vw;
+    margin:2%;
+    height:30%;
 }
 
 .Receipt-Receipts {
     display: flex;
     flex-direction: column;
-    width: 50%;
-    margin:5%;
+    width: 40vw;
+    margin:3%;
+    align-items: center;
+}
+
+.Receipt-actualproducts {
+    width:30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top:30px;
 }
 
 .List-product {
@@ -58,4 +67,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.list-ingrediens {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content:space-around;
+}
+.list-fridge {
+    width: 100%;
 }

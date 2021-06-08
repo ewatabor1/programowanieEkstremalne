@@ -20,7 +20,7 @@ const NavigationBar = ({ navigation }) => {
     <ul className="nav-links">
       {data.map((nav, key) => {
         return (
-          <Nav.Link data-testid={nav.name} href={nav.path}>
+          <Nav.Link data-testid={nav.name} href={nav.path} key={key}>
             <h3>{nav.name}</h3>
           </Nav.Link>
         );

@@ -1,0 +1,456 @@
+{
+	"info": {
+		"_postman_id": "759c6869-cb74-4d21-ae09-8a1bc762a616",
+		"name": "Story 1 - Adding and deleting Products",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add single product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add product\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"\t\tconst responseJson = pm.response.json();\r",
+							"\t\tpm.expect(responseJson.name).to.eql(\"Bananas\");\r",
+							"\t\tpm.expect(responseJson.quantity).to.eql(1);\r",
+							"        pm.collectionVariables.set(\"productName\", responseJson.name);\r",
+							"        pm.collectionVariables.set(\"bananasQuantity\", responseJson.quantity);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Bananas\",\r\n  \"quantity\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if fridge has added product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check fridge contents\", () => {\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const product = responseJson.find\r",
+							"        (m => m.name === \"Bananas\");\r",
+							"    pm.expect(product.name).to.eql(\"Bananas\");\r",
+							"    pm.expect(product.quantity).to.eql(pm.collectionVariables.get(\"bananasQuantity\"));\r",
+							"\r",
+							"\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product with non-1 quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add product\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"\t\tconst responseJson = pm.response.json();\r",
+							"\t\tpm.expect(responseJson.name).to.eql(\"Apples\");\r",
+							"\t\tpm.expect(responseJson.quantity).to.eql(5);\r",
+							"        pm.collectionVariables.set(\"idOfProduct\", responseJson.id);\r",
+							"        pm.collectionVariables.set(\"applesQuantity\", responseJson.quantity);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Apples\",\r\n  \"quantity\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if fridge has added product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check fridge contents\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"\t\tconst responseJson = pm.response.json();\r",
+							"        const product = responseJson.find\r",
+							"            (m => m.name === \"Apples\");\r",
+							"\t\tpm.expect(product.name).to.eql(\"Apples\");\r",
+							"\t\tpm.expect(product.quantity).to.eql(pm.collectionVariables.get(\"applesQuantity\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Increase product quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add product\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"\t\tconst responseJson = pm.response.json();\r",
+							"\t\tpm.expect(responseJson.name).to.eql(\"Apples\");\r",
+							"\t\tpm.expect(responseJson.quantity).to.eql(pm.collectionVariables.get(\"applesQuantity\")+3);\r",
+							"        pm.collectionVariables.set(\"applesQuantity\", responseJson.quantity);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/supply/{{idOfProduct}}/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"supply",
+						"{{idOfProduct}}",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if fridge has increased quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check fridge contents\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"\t\tconst responseJson = pm.response.json();\r",
+							"        const product = responseJson.find\r",
+							"            (m => m.name === \"Apples\");\r",
+							"\t\tpm.expect(product.name).to.eql(\"Apples\");\r",
+							"    pm.expect(product.quantity).to.eql(pm.collectionVariables.get(\"applesQuantity\"));\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Decrease product quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add product\", () => {\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.product.name).to.eql(\"Apples\");\r",
+							"    pm.expect(responseJson.product.quantity).to.eql(pm.collectionVariables.get(\"applesQuantity\")-3);\r",
+							"    pm.collectionVariables.set(\"applesQuantity\", responseJson.product.quantity);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/consume/{{idOfProduct}}/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"consume",
+						"{{idOfProduct}}",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if fridge has decreased quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check fridge contents\", () => {\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const product = responseJson.find\r",
+							"        (m => m.name === \"Apples\");\r",
+							"    pm.expect(product.name).to.eql(\"Apples\");\r",
+							"    pm.expect(product.quantity).to.eql(pm.collectionVariables.get(\"applesQuantity\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete product by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Add product\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/{{idOfProduct}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{idOfProduct}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete product by name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add product\", () => {\r",
+							"\t\tpm.expect(pm.response.code).to.eql(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/delete_by_name/{{productName}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"delete_by_name",
+						"{{productName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if fridge is empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check fridge contents\", () => {\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"\tpm.expect(pm.response.json().length).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "productName",
+			"value": ""
+		},
+		{
+			"key": "idOfProduct",
+			"value": ""
+		},
+		{
+			"key": "bananasQuantity",
+			"value": ""
+		},
+		{
+			"key": "appleQuantity",
+			"value": ""
+		},
+		{
+			"key": "applesQuantity",
+			"value": ""
+		}
+	]
+}

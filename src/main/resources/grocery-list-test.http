@@ -21,4 +21,18 @@ DELETE localhost:8080/api/grocery-lists/1
 
 ###
 
-DELETE localhost:8080/api/grocery-lists/delete_by_name/pepsi
+DELETE localhost:8080/api/grocery-lists/delete-by-name/every day shopping
+
+###
+
+POST localhost:8080/api/grocery-lists/1/add-item
+Content-Type: application/json
+
+{
+  "product": "maslo",
+  "quantity": 2
+}
+
+###
+
+DELETE localhost:8080/api/grocery-lists/1/remove-item/2

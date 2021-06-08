@@ -1,12 +1,27 @@
-.Fridge-title {
+.fridge-title {
     margin:50px;
     align-content: center;
 }
 
-.Fridge-list {
+.fridge-list {
 margin:0 8% 0 8%;
 }
 
-.Fridge-item {
+.fridge-item {
     font-size: 20px;
+}
+
+.fridge-container {
+    display: flex;
+    flex-direction:row;
+    width: 100vw;
+    height: 90vh;
+}
+
+.fridge-display {
+    flex-direction:column;
+    display: flex;
+    align-items:center;
+    width:60vw;
+    margin-top: 40px;
 }

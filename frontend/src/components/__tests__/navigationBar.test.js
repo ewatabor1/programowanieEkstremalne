@@ -1,26 +1,40 @@
-import {screen, cleanup, act } from "@testing-library/react";
-import renderer from 'react-test-renderer'
-import navigationBar from '../navigationBar'
-import {render, unmountComponentAtNode} from 'react-dom'
+import { render, screen, cleanup } from "@testing-library/react";
+import {mount, shallow, configure} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import NavigationBar from '../navigationBar'
-let container = null;
+//import ProductList from '../productList'
+// configure({adapter: new Adapter()})
+// const test = [{id:1,product:'test2',quantity:1},{id:2,product:'test2',quantity:1}]
+// describe('<ProductList/>', () => {
+//     const wrapper = shallow(
+//         <ProductList test={test}/>
+//     )
 
-beforeEach(() => {
-    // setup a DOM element as a render target
-    container = document.createElement("div");
-    document.body.appendChild(container);
-  });
-  
-  afterEach(() => {
-    // cleanup on exiting
-    unmountComponentAtNode(container);
-    container.remove();
-    container = null;
-  });
+//     it('renders', () => {
+//         shallow(<ProductList/>)
+//     })
 
-  test("should render navigation component", () => {
-    const test ={ path:'/', name:'Home' }
-    render(<NavigationBar navigation ={test} />);
-    const todoElement = screen.getByTestId('Home');
-    expect(todoElement).toBeInTheDocument();
-  });
+//     it('display li',()=>{
+//         expect(wrapper.find('li')).toHaveLength(2);
+//     });
+// });
+afterEach(cleanup)
+const test = [{ path: "/", name: "Home" },{ path: "/receipt", name: "Receipt" },];
+it('should render ProductList component',()=>{
+    const ListComponent = render(<NavigationBar navigation={test}/>)
+    expect(ListComponent).toBeTruthy();
+});
+
+if('renders data correctly', ()=>{
+
+    const {getAllByTestId} = render(<NavigationBar navigation={test}/>)
+    const itemNames = getAllByTestId('single-item').map(li=>li.textContent)
+    const fakeItems = test.map(val=>val.item)
+    expect(itemNames).toEqual(fakeItems)
+});
+
+if('Total length of list should be 3', ()=>{
+    const {getAllByTestId} = render(<NavigationBar navigation={test}/>)
+    const listUI = getAllByTestId('item-list-wrap')
+    expect(listUI.children.length).toBe(2)
+});

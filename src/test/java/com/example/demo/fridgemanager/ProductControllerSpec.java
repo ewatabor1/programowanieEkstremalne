@@ -91,7 +91,19 @@ class ProductControllerSpec {
 
         mvc.perform(put("/api/products/consume/1/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.quantity", is(1)));
+                .andExpect(jsonPath("$.product.quantity", is(1)));
+    }
+
+    @Test
+    void shouldConsumeProductAndReturnMinimalQuantityMessage() throws Exception {
+        Product pepsi = new Product("pepsi", 250, LocalDate.now(), 3, 2, null, null, null);
+
+        given(dao.getById(1L)).willReturn(pepsi);
+
+        mvc.perform(put("/api/products/consume/1/2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.product.quantity", is(1)))
+                .andExpect(jsonPath("$.message", is("Quantity of product: pepsi is lower than minimal quantity.")));
     }
 
     @Test

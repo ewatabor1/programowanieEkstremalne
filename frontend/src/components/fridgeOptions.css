@@ -1,0 +1,9 @@
+.fridge-input-container{
+    margin-bottom: 5%;
+    display: flex;
+    width:30vw;
+    align-items: center;
+    flex-direction:column;
+  }
+
+  

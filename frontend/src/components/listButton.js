@@ -1,14 +1,14 @@
 import React from "react";
-
+import './listInput.css'
 const ListButton = ({value,handleListClicked})=>{
-
+    console.log(value)
     return(
         <button
         className="list-button"
         onClick={() => handleListClicked(value.id)}
         data-testid={value.products[0].product}
       >
-        <p>{value.products[0].product}</p>
+        <p>{"nazwa:"+ value.products[0].product}</p>
         <p>{"ilość: " + value.products[0].quantity}</p>
       </button>
     )

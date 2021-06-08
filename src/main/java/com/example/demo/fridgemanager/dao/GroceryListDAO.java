@@ -42,4 +42,8 @@ public class GroceryListDAO {
         entityManager.persist(gl);
         return gl;
     }
+
+    public GroceryList getById(Long id) {
+        return entityManager.find(GroceryList.class, id);
+    }
 }
