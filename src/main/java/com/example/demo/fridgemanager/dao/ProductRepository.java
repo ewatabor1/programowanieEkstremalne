@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class ProductDAO {
+public class ProductRepository extends BaseRepository<Product>{
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -47,12 +47,6 @@ public class ProductDAO {
         entityManager.createQuery("DELETE FROM Product WHERE UPPER(name) = UPPER(:name)")
                 .setParameter("name", name)
                 .executeUpdate();
-    }
-
-    @Transactional
-    public Product save(Product product) {
-        entityManager.persist(product);
-        return product;
     }
 
     public Product getById(Long id) {

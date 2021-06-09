@@ -9,7 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class GroceryListDAO {
+public class GroceryListRepository extends BaseRepository<GroceryList>{
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -35,12 +35,6 @@ public class GroceryListDAO {
         entityManager.createQuery("DELETE FROM GroceryList WHERE UPPER(name) = UPPER(:name)")
                 .setParameter("name", name)
                 .executeUpdate();
-    }
-
-    @Transactional
-    public GroceryList save(GroceryList gl) {
-        entityManager.persist(gl);
-        return gl;
     }
 
     public GroceryList getById(Long id) {

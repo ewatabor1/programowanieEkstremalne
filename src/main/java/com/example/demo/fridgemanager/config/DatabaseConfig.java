@@ -39,7 +39,7 @@ public class DatabaseConfig {
 
     // configure entityManagerFactory
 
-    @Bean(name = "masterEntityManager")
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
         lef.setPackagesToScan("com.example");

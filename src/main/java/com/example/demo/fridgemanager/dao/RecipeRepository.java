@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class RecipeDAO {
+public class RecipeRepository extends BaseRepository<Recipe>{
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -46,13 +46,6 @@ public class RecipeDAO {
         entityManager.createQuery("DELETE FROM Recipe WHERE id =:id")
                 .setParameter("id", id)
                 .executeUpdate();
-    }
-
-
-    @Transactional
-    public Recipe save(Recipe recipe) {
-        entityManager.persist(recipe);
-        return recipe;
     }
 
 

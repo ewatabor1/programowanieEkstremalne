@@ -1,7 +1,7 @@
 package com.example.demo.fridgemanager;
 
 import com.example.demo.fridgemanager.controller.ProductController;
-import com.example.demo.fridgemanager.dao.ProductDAO;
+import com.example.demo.fridgemanager.dao.ProductRepository;
 import com.example.demo.fridgemanager.dto.ProductDTOMapper;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.services.ProductService;
@@ -34,7 +34,7 @@ class ProductControllerSpec {
     private MockMvc mvc;
 
     @MockBean
-    private ProductDAO dao;
+    private ProductRepository dao;
 
     @Test
     void shouldAddProductToDatabase() throws Exception {

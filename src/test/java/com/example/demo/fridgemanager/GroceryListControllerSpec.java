@@ -1,7 +1,7 @@
 package com.example.demo.fridgemanager;
 
 import com.example.demo.fridgemanager.controller.GroceryListController;
-import com.example.demo.fridgemanager.dao.GroceryListDAO;
+import com.example.demo.fridgemanager.dao.GroceryListRepository;
 import com.example.demo.fridgemanager.entities.GroceryEntry;
 import com.example.demo.fridgemanager.entities.GroceryList;
 import com.example.demo.fridgemanager.services.GroceryListService;
@@ -37,7 +37,7 @@ class GroceryListControllerSpec {
     private MockMvc mvc;
 
     @MockBean
-    private GroceryListDAO dao;
+    private GroceryListRepository dao;
 
     private GroceryList prepareGL() {
         List<GroceryEntry> groceries = new ArrayList<>();

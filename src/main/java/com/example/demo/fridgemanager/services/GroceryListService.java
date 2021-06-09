@@ -1,10 +1,8 @@
 package com.example.demo.fridgemanager.services;
 
-import com.example.demo.fridgemanager.dao.GroceryListDAO;
+import com.example.demo.fridgemanager.dao.GroceryListRepository;
 import com.example.demo.fridgemanager.dto.GroceryListDTO;
-import com.example.demo.fridgemanager.dto.ProductDTO;
 import com.example.demo.fridgemanager.entities.GroceryList;
-import com.example.demo.fridgemanager.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +12,7 @@ import java.util.List;
 @Service
 public class GroceryListService {
     @Autowired
-    private GroceryListDAO dao;
+    private GroceryListRepository dao;
 
     public List<GroceryList> findAll() {
         return dao.findAll();
