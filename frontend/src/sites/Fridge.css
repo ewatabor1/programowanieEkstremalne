@@ -1,12 +1,63 @@
-.Fridge-title {
-    margin:50px;
-    align-content: center;
+.fridge-title {
+  margin: 50px;
+  align-content: center;
 }
 
-.Fridge-list {
-margin:0 8% 0 8%;
+.fridge-list {
+  margin: 0 8% 0 8%;
 }
 
-.Fridge-item {
-    font-size: 20px;
+.fridge-item {
+  font-size: 20px;
+}
+
+.fridge-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 90vh;
+}
+
+.fridge-display {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  width: 60vw;
+  margin-top: 40px;
+}
+
+.fridge-list {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  height: 80px;
+  justify-content: space-around;
+  background: #55c7fc;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.fridge-button {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 300px;
+  height: 90px;
+  justify-content: space-around;
+  background: #55c7fc;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.fridge-button2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 300px;
+  height: 90px;
+  justify-content: space-around;
+  background: #fc5555;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

@@ -1,24 +1,20 @@
 import { render, screen, cleanup } from "@testing-library/react";
-import ProductList from "../productList";
+import FridgeList from "../fridgeList";
 
 afterEach(cleanup);
 const test = [
-  {
-    products: [
-      { id: 1, product: "test2", quantity: 1 },
-      { id: 2, product: "test4", quantity: 2 },
-    ],
-  },
+  { id: 1, name: "test2", value: 1, quantity: 12, minQuantity: 2 },
+  { id: 2, name: "test4", value: 2, quantity: 12, minQuantity: 2 },
 ];
-it("should render ProductList component", () => {
-  const ListComponent = render(<ProductList test={test} />);
+it("should render FridgeList component", () => {
+  const ListComponent = render(<FridgeList data={test} />);
   expect(ListComponent).toBeTruthy();
 });
 
 if (
   ("renders data correctly",
   () => {
-    const { getAllByTestId } = render(<ProductList test={test} />);
+    const { getAllByTestId } = render(<FridgeList data={test} />);
     const itemNames = getAllByTestId("single-item").map((li) => li.textContent);
     const fakeItems = test.map((val) => val.item);
     expect(itemNames).toEqual(fakeItems);
@@ -28,7 +24,7 @@ if (
 if (
   ("Total length of list should be 3",
   () => {
-    const { getAllByTestId } = render(<ProductList test={test} />);
+    const { getAllByTestId } = render(<FridgeList data={test} />);
     const listUI = getAllByTestId("item-list-wrap");
     expect(listUI.children.length).toBe(2);
   })

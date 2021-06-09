@@ -1,61 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Receipt.css";
-const initialState = [{ name: "Mąka", value: "100" }];
+import { LOCAL_URL } from "../variables";
+import { GetData, PostData } from "../components/hooks/fetchData";
+import FridgeList from "../components/fridgeList";
+import ReceiptInput from "../components/receiptInput";
+import ReceiptList from "../components/receiptList";
+import SelectedList from "../components/selectedList";
 const ReceiptScreen = () => {
-  const [products, setProducts] = useState(initialState);
-  const [productName, setProductName] = useState('')
-  const [productQuantity, setProductQuantity] = useState('')
+  const [products, setProducts] = useState([]);
+  const [productName, setProductName] = useState("");
+  const [productQuantity, setProductQuantity] = useState("");
+  const [data, setData] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+  const [testRemove, setTestRemove] = useState({});
+  const [state, setState] = useState(0);
+  useEffect(() => {
+    GetData(LOCAL_URL + "products").then((data) => {
+      setData(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    GetData(LOCAL_URL + "recipes").then((data) => {
+      setRecipes(data);
+    });
+  }, [state]);
+
   const myChangeHandler = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
-    if(nam==='productQuantity'){
-      setProductQuantity(val)
-    }else{
-      setProductName(val)
+    if (nam === "productQuantity") {
+      setProductQuantity(val);
+    } else {
+      setProductName(val);
     }
-  }
-  const handleSubmit = ()=>{
-    const product = {name:productName, value:productQuantity}
-    const array = [...products,product]
-    setProducts(array)
+  };
+  const handleSubmit = () => {
+    const product = { ...testRemove, amount: productQuantity };
+    const array = [...products, product];
+    setProducts(array);
+  };
+  const handleListClicked = (value) => {
+    console.log(value);
+    const Remove = { name: value.name, productId: value.id, kcal: value.kcal};
+    setTestRemove(Remove);
+  };
+
+  const handleAddedRecipe = () => {
     console.log(products)
-  }
+    const json = JSON.stringify({
+      name: productName,
+      ingredients: products
+    });
+    PostData(LOCAL_URL + "recipes", json);
+    setState(Math.random());
+    setProducts([]);
+    setProductName('')
+  };
   return (
     <div className="Receipt-div">
-      <h2 style={{ alignSelf: "center" }}>Przepisy</h2>
+      <h1 style={{ alignSelf: "center" }}>Przepisy</h1>
       <div className="Receipt-columns">
         <div className="Receipt-products">
-          <div className ='Receipt-addingProduct'>
-          <form>
-          <p>Nazwa produktu:</p>
-          <input
-            type='text'
-            name='productName'
-            onChange={myChangeHandler}
+          <ReceiptInput
+            myChangeHandler={myChangeHandler}
+            handleAddedRecipe={handleAddedRecipe}
+            handleSubmit={handleSubmit}
           />
-          <p>Ilość produktu:</p>
-          <input
-            type='text'
-            name='productQuantity'
-            onChange={myChangeHandler}
-          />
-          </form>
-            <button onClick={handleSubmit}>Dodaj produkt</button>
-          </div>
-          <div className='Receipt-productList'>
-          <h1>Przypisane produkty</h1>
-        {products.map((value) => {
-          return (
-            <li className='List-product' key={value.id}>
-            <p className='Receipt-product-title'>{value.name}</p>
-            <p>{value.value}</p>
-            </li>
-            
-          );
-        })}
+          <div className="Receipt-productList">
+            <h1>Dostępne produkty</h1>
+            <FridgeList
+              data={data}
+              handleListClicked={handleListClicked}
+              type="Receipt"
+            />
           </div>
         </div>
-        <div className="Receipt-Receipts"></div>
+        <SelectedList
+          products={products}
+          productName={productName}
+          handleListClicked={handleListClicked}
+        />
+        <ReceiptList recipes={recipes} />
       </div>
     </div>
   );

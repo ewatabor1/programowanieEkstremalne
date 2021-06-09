@@ -1,26 +1,23 @@
-import {screen, cleanup, act } from "@testing-library/react";
-import renderer from 'react-test-renderer'
-import navigationBar from '../navigationBar'
-import {render, unmountComponentAtNode} from 'react-dom'
+import { render, screen, cleanup } from "@testing-library/react";
 import NavigationBar from '../navigationBar'
-let container = null;
 
-beforeEach(() => {
-    // setup a DOM element as a render target
-    container = document.createElement("div");
-    document.body.appendChild(container);
-  });
-  
-  afterEach(() => {
-    // cleanup on exiting
-    unmountComponentAtNode(container);
-    container.remove();
-    container = null;
-  });
+afterEach(cleanup)
+const test = [{ path: "/", name: "Home" },{ path: "/receipt", name: "Receipt" },];
+it('should render ProductList component',()=>{
+    const ListComponent = render(<NavigationBar navigation={test}/>)
+    expect(ListComponent).toBeTruthy();
+});
 
-  test("should render navigation component", () => {
-    const test ={ path:'/', name:'Home' }
-    render(<NavigationBar navigation ={test} />);
-    const todoElement = screen.getByTestId('Home');
-    expect(todoElement).toBeInTheDocument();
-  });
+if('renders data correctly', ()=>{
+
+    const {getAllByTestId} = render(<NavigationBar navigation={test}/>)
+    const itemNames = getAllByTestId('single-item').map(li=>li.textContent)
+    const fakeItems = test.map(val=>val.item)
+    expect(itemNames).toEqual(fakeItems)
+});
+
+if('Total length of list should be 3', ()=>{
+    const {getAllByTestId} = render(<NavigationBar navigation={test}/>)
+    const listUI = getAllByTestId('item-list-wrap')
+    expect(listUI.children.length).toBe(2)
+});
