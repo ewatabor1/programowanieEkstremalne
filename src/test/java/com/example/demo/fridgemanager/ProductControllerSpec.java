@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(ProductController.class)
 @ContextConfiguration(classes = {ProductService.class,ProductController.class, ProductDTOMapper.class})
+@PropertySource(value = {"classpath:/config.json"}, factory = FridgeManagerApp.JsonLoader.class)
 class ProductControllerSpec {
 
     @Autowired
@@ -44,7 +46,7 @@ class ProductControllerSpec {
 
         given(dao.findAll()).willReturn(allProducts);
 
-        mvc.perform(get("/api/products")
+        mvc.perform(get("/products")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -63,10 +65,10 @@ class ProductControllerSpec {
 
         given(dao.findAll()).willReturn(allProducts);
 
-        mvc.perform(delete("/api/products/delete_by_name/pepsi"))
+        mvc.perform(delete("/products/delete_by_name/pepsi"))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/api/products/pepsi")
+        mvc.perform(get("/products/pepsi")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -78,7 +80,7 @@ class ProductControllerSpec {
 
         given(dao.getById(1L)).willReturn(pepsi);
 
-        mvc.perform(put("/api/products/supply/1/2"))
+        mvc.perform(put("/products/supply/1/2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.quantity", is(3)));
     }
@@ -89,7 +91,7 @@ class ProductControllerSpec {
 
         given(dao.getById(1L)).willReturn(pepsi);
 
-        mvc.perform(put("/api/products/consume/1/1"))
+        mvc.perform(put("/products/consume/1/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.product.quantity", is(1)));
     }
@@ -100,7 +102,7 @@ class ProductControllerSpec {
 
         given(dao.getById(1L)).willReturn(pepsi);
 
-        mvc.perform(put("/api/products/consume/1/2"))
+        mvc.perform(put("/products/consume/1/2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.product.quantity", is(1)))
                 .andExpect(jsonPath("$.message", is("Quantity of product: pepsi is lower than minimal quantity.")));
@@ -112,7 +114,7 @@ class ProductControllerSpec {
 
         given(dao.getById(1L)).willReturn(pepsi);
 
-        mvc.perform(put("/api/products/consume/1/3"))
+        mvc.perform(put("/products/consume/1/3"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("There is no enough product: " + pepsi.getName() + ". Available: " + pepsi.getQuantity()));
     }

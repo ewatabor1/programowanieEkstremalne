@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -55,7 +56,7 @@ class GroceryListControllerSpec {
 
         given(dao.findAll()).willReturn(allGroceryLists);
 
-        mvc.perform(get("/api/grocery-lists")
+        mvc.perform(get("/grocery-lists")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -71,10 +72,10 @@ class GroceryListControllerSpec {
 
         given(dao.findAll()).willReturn(allGroceryLists);
 
-        mvc.perform(delete("/api/grocery-lists/delete_by_name/test_list"))
+        mvc.perform(delete("/grocery-lists/delete-by-name/test_list"))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/api/grocery-lists/test_list")
+        mvc.perform(get("/grocery-lists/test_list")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
