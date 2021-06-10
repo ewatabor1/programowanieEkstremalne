@@ -1,6 +1,5 @@
 package com.example.demo.fridgemanager.dao;
 
-import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.entities.Recipe;
 import org.springframework.stereotype.Service;
 
@@ -8,11 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.Collection;
 import java.util.List;
 
 @Service
-public class RecipeRepository extends BaseRepository<Recipe>{
+public class RecipeDAO extends DAO<Recipe> {
     @PersistenceContext
     private EntityManager entityManager;
 

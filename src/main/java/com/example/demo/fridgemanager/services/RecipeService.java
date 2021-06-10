@@ -1,7 +1,7 @@
 package com.example.demo.fridgemanager.services;
 
-import com.example.demo.fridgemanager.dao.ProductRepository;
-import com.example.demo.fridgemanager.dao.RecipeRepository;
+import com.example.demo.fridgemanager.dao.ProductDAO;
+import com.example.demo.fridgemanager.dao.RecipeDAO;
 import com.example.demo.fridgemanager.dto.RecipeDTO;
 import com.example.demo.fridgemanager.dto.RecipeIngredientDTO;
 import com.example.demo.fridgemanager.entities.Product;
@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 @Service
 public class RecipeService {
     @Autowired
-    private RecipeRepository dao;
+    private RecipeDAO dao;
     @Autowired
-    private ProductRepository productRepository;
+    private ProductDAO productDAO;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -52,7 +52,7 @@ public class RecipeService {
 
 
     public List<Recipe> findAvailable() {
-        List<Product> allProducts = productRepository.findAll();
+        List<Product> allProducts = productDAO.findAll();
         Map<Product, BigDecimal> availableProducts = new HashMap<>();
         for (Product product : allProducts) {
             // TODO: 16.05.2021 change to check state of the product instead of adding 1
@@ -101,8 +101,8 @@ public class RecipeService {
     private Recipe updateInternal(Recipe recipe, RecipeDTO dto) {
         Set<Long> productIds = dto.getIngredients().stream().map(RecipeIngredientDTO::getProductId).filter(Objects::nonNull).collect(Collectors.toSet());
         Set<String> productNames = dto.getIngredients().stream().map(RecipeIngredientDTO::getProductName).filter(Objects::nonNull).collect(Collectors.toSet());
-        List<Product> products = productRepository.findByIds(productIds);
-        products.addAll(productRepository.findByNames(productNames));
+        List<Product> products = productDAO.findByIds(productIds);
+        products.addAll(productDAO.findByNames(productNames));
         Map<Product, BigDecimal> ingredientMap = new HashMap<>();
         if (dto.getIngredients() != null) {
             for (RecipeIngredientDTO ing : dto.getIngredients()) {

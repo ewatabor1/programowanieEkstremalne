@@ -4,8 +4,8 @@ import com.example.demo.fridgemanager.config.DatabaseConfig;
 import com.example.demo.fridgemanager.controller.ApiResponse;
 import com.example.demo.fridgemanager.controller.ProductController;
 import com.example.demo.fridgemanager.controller.RecipeController;
-import com.example.demo.fridgemanager.dao.ProductRepository;
-import com.example.demo.fridgemanager.dao.RecipeRepository;
+import com.example.demo.fridgemanager.dao.ProductDAO;
+import com.example.demo.fridgemanager.dao.RecipeDAO;
 import com.example.demo.fridgemanager.dto.*;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.entities.Recipe;
@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(ProductController.class)
-@ContextConfiguration(classes = {DatabaseConfig.class, ProductService.class, ProductController.class, RecipeController.class, RecipeService.class, ProductDTOMapper.class, RecipeDTOMapper.class, ProductRepository.class, RecipeRepository.class})
+@ContextConfiguration(classes = {DatabaseConfig.class, ProductService.class, ProductController.class, RecipeController.class, RecipeService.class, ProductDTOMapper.class, RecipeDTOMapper.class, ProductDAO.class, RecipeDAO.class})
 class RecipeControllerSpec {
 
     @Autowired

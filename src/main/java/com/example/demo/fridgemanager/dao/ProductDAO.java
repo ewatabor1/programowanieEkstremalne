@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class ProductRepository extends BaseRepository<Product>{
+public class ProductDAO extends DAO<Product> {
     @PersistenceContext
     private EntityManager entityManager;
 

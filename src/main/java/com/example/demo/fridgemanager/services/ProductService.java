@@ -1,6 +1,6 @@
 package com.example.demo.fridgemanager.services;
 
-import com.example.demo.fridgemanager.dao.ProductRepository;
+import com.example.demo.fridgemanager.dao.ProductDAO;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.dto.ProductDTO;
 import com.example.demo.fridgemanager.utils.JsonLoader;
@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class ProductService {
     @Autowired
-    private ProductRepository dao;
+    private ProductDAO dao;
     @Autowired
     private ObjectMapper objectMapper;
 

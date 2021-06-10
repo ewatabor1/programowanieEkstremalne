@@ -9,7 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class GroceryListRepository extends BaseRepository<GroceryList>{
+public class GroceryListDAO extends DAO<GroceryList> {
     @PersistenceContext
     private EntityManager entityManager;
 

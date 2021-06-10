@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
-public abstract class BaseRepository<Entity> {
+public abstract class DAO<Entity> {
     @PersistenceContext
     protected EntityManager entityManager;
 
