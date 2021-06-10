@@ -22,7 +22,9 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(String name, String description, Map<Product, BigDecimal> ingredients, Collection<String> instructions) {
+    private Recipe(String name, String description, Map<Product, BigDecimal> ingredients, Collection<String> instructions) {
+        if (name == null || name.isEmpty())
+            throw new RuntimeException("name must not be empty");
         this.name = name;
         this.description = description;
         this.ingredients = ingredients.entrySet().stream().map(entry -> new RecipeIngredient(this, entry.getKey(), entry.getValue())).collect(Collectors.toSet());
@@ -30,15 +32,19 @@ public class Recipe {
     }
 
 
-    public void update(String name, String description, Map<Product, BigDecimal> ingredients, Collection<String> instructions) {
-        if (name == null || name.isEmpty())
-            throw new RuntimeException("name must not be empty");
-        this.name = name;
-        this.description = description;
+    public void update(Recipe recipe) {
+        this.name = recipe.getName();
+        this.description = recipe.getDescription();
         this.ingredients.clear();
+        this.ingredients.addAll(recipe.getIngredients());
+        for (RecipeIngredient ingredient : this.ingredients) {
+            ingredient.setRecipe(this);
+        }
         this.steps.clear();
-        this.ingredients .addAll(ingredients.entrySet().stream().map(entry -> new RecipeIngredient(this, entry.getKey(), entry.getValue())).collect(Collectors.toSet()));
-        this.steps .addAll( instructions.stream().map(instruction -> new RecipeStep(this, instruction)).collect(Collectors.toSet()));
+        this.steps.addAll(recipe.getSteps());
+        for (RecipeStep step : this.steps) {
+            step.setRecipe(this);
+        }
     }
 
     public Long getId() {
@@ -71,5 +77,51 @@ public class Recipe {
                 requiredAmounts.put(ingredient.getProduct(), ingredient.getAmount());
         }
         return requiredAmounts;
+    }
+
+    public static class Builder {
+        private List<String> instructions = new ArrayList<>();
+        private Map<Product, BigDecimal> ingredients = new HashMap<>();
+        private String name;
+        private String description;
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setInstructions(Collection<String> steps) {
+            if (steps != null) {
+                this.instructions.clear();
+                this.instructions.addAll(steps);
+            }
+            return this;
+        }
+
+        public Builder setIngredients(Map<Product, BigDecimal> ingredients) {
+            if(ingredients!=null){
+            this.ingredients.clear();
+            this.ingredients.putAll(ingredients);}
+            return this;
+        }
+
+        public Builder addInstruction(String instruction) {
+            this.instructions.add(instruction);
+            return this;
+        }
+
+        public Builder addIngredient(Product product, BigDecimal amount) {
+            this.ingredients.put(product, amount);
+            return this;
+        }
+
+        public Recipe create() {
+            return new Recipe(name, description, ingredients, instructions);
+        }
     }
 }

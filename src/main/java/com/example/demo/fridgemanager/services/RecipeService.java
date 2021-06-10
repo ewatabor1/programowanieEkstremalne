@@ -115,12 +115,13 @@ public class RecipeService {
             }
         }
 
-        recipe.update(
-                dto.getName(),
-                dto.getDescription(),
-                ingredientMap,
-                dto.getSteps() != null ? dto.getSteps() : Collections.emptyList()
-        );
+        Recipe.Builder builder = new Recipe.Builder()
+                .setName(dto.getName())
+                .setDescription(dto.getDescription())
+                .setIngredients(ingredientMap)
+                .setInstructions(dto.getSteps());
+
+        recipe.update(builder.create());
         dao.save(recipe);
         return recipe;
     }

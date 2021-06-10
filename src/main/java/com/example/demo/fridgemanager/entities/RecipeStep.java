@@ -26,4 +26,8 @@ public class RecipeStep {
     public String getInstruction() {
         return instruction;
     }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe=recipe;
+    }
 }
