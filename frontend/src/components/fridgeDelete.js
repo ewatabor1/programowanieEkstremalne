@@ -1,9 +1,9 @@
 import React from "react";
 import "./fridgeOptions.css";
 import { DeleteData } from "./hooks/fetchData";
-const FridgeDelete = ({ LOCAL_URL, updateState, testRemove }) => {
+const FridgeDelete = ({ updateState, testRemove }) => {
   const handleSubmit = async () => {
-    DeleteData(LOCAL_URL + `/${testRemove}`);
+    DeleteData(`/api/${testRemove}`);
     updateState(Math.random() * 10);
   };
   return (

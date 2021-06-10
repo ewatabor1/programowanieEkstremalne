@@ -4,7 +4,6 @@ import FridgeInput from "../components/fridgeInput";
 import FridgeDelete from "../components/fridgeDelete";
 import FridgeUpdate from "../components/fridgeUpdate";
 import { GetData } from "../components/hooks/fetchData";
-import { LOCAL_URL } from "../variables";
 import FridgeList from "../components/fridgeList";
 
 
@@ -13,7 +12,7 @@ const Fridge = () => {
   const [testRemove, setTestRemove] = useState("");
   const [state, setState] = useState(0);
   useEffect(() => {
-    GetData(LOCAL_URL + "products").then((data) => {
+    GetData("/api/products").then((data) => {
       setData(data);
     });
   }, [state]);
@@ -33,18 +32,15 @@ const Fridge = () => {
           <h1>Lodówka</h1>
         </div>
         <FridgeInput
-          LOCAL_URL={LOCAL_URL + "products"}
           updateState={updateState}
         />
         <FridgeDelete
-          LOCAL_URL={LOCAL_URL + "products"}
           updateState={updateState}
           testRemove={testRemove}
         />
         <FridgeUpdate
           valueToRemove={testRemove}
           updateState={updateState}
-          LOCAL_URL={LOCAL_URL}
         />
       </div>
       <FridgeList data={data} handleListClicked={handleListClicked} type='Fridge' />

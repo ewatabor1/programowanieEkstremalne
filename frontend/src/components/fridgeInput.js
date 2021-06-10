@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./fridgeOptions.css";
 import {PostData} from './hooks/fetchData'
-const FridgeInput = ({ LOCAL_URL, updateState }) => {
+const FridgeInput = ({updateState }) => {
   const [productName, setProductName] = useState("");
   const [productValue, setProductValue] = useState("");
   const [productExpire, setProductExpire] = useState("");
@@ -38,7 +38,7 @@ const FridgeInput = ({ LOCAL_URL, updateState }) => {
       quantity: productQuantity,
       minQuantity: minimalQuantity,
     });
-    PostData(LOCAL_URL,json)
+    PostData('/api/products',json)
     updateState(Math.random())
   };
 

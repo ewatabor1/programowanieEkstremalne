@@ -2,7 +2,6 @@ import "../App.css";
 import React, { useState, useEffect } from "react";
 import ProductList from "../components/productList";
 import { GetData, DeleteData } from "../components/hooks/fetchData";
-import { LOCAL_URL } from "../variables";
 import ListInput from "../components/listInput";
 
 function Home() {
@@ -11,14 +10,14 @@ function Home() {
   let valueToRemove = "";
 
   useEffect(() => {
-    GetData(LOCAL_URL + "grocery-lists").then((data) => {
+    GetData("/api/grocery-lists").then((data) => {
       setTest(data);
       console.log(data);
     });
   }, [state]);
 
   const handleRemove = () => {
-    DeleteData(LOCAL_URL + `grocery-lists/${valueToRemove}`);
+    DeleteData(`/api/grocery-lists/${valueToRemove}`);
     setState(state + 1);
   };
 
@@ -32,7 +31,7 @@ function Home() {
   return (
     <div className="App-main">
       <ListInput
-        LOCAL_URL={LOCAL_URL}
+
         handleStateUpdated={handleStateUpdated}
       />
       <ProductList test={test} handleListClicked={handleListClicked} />

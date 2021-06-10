@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./fridgeOptions.css";
 import {PutData} from './hooks/fetchData'
-const FridgeUpdate = ({ LOCAL_URL, valueToRemove, updateState }) => {
+const FridgeUpdate = ({ valueToRemove, updateState }) => {
   const testValue = valueToRemove;
   const [productValue, setProductValue] = useState("");
   const handleChange = (event) => {
@@ -12,11 +12,11 @@ const FridgeUpdate = ({ LOCAL_URL, valueToRemove, updateState }) => {
   const handleSubmit = () => {
     const actualValue = productValue;
     if (actualValue > 0) {
-      PutData(LOCAL_URL+`products/supply/${testValue}/${productValue}`)
+      PutData(`/api/products/supply/${testValue}/${productValue}`)
       updateState(Math.random());
     } else {
       const value = Math.abs(productValue)
-      PutData(LOCAL_URL+`products/consume/${testValue}/${value}`)
+      PutData(`/api/products/consume/${testValue}/${value}`)
       updateState(Math.random());
     }
   };

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Receipt.css";
-import { LOCAL_URL } from "../variables";
 import { GetData, PostData } from "../components/hooks/fetchData";
 import FridgeList from "../components/fridgeList";
 import ReceiptInput from "../components/receiptInput";
@@ -15,13 +14,13 @@ const ReceiptScreen = () => {
   const [testRemove, setTestRemove] = useState({});
   const [state, setState] = useState(0);
   useEffect(() => {
-    GetData(LOCAL_URL + "products").then((data) => {
+    GetData("/api/products").then((data) => {
       setData(data);
     });
   }, []);
 
   useEffect(() => {
-    GetData(LOCAL_URL + "recipes").then((data) => {
+    GetData("/api/recipes").then((data) => {
       setRecipes(data);
     });
   }, [state]);
@@ -52,7 +51,7 @@ const ReceiptScreen = () => {
       name: productName,
       ingredients: products
     });
-    PostData(LOCAL_URL + "recipes", json);
+    PostData("/api/recipes", json);
     setState(Math.random());
     setProducts([]);
     setProductName('')

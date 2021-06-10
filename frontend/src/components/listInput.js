@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import './listInput.js';
 import {PostData} from '../components/hooks/fetchData'
-const ListInput = ({ LOCAL_URL, handleStateUpdated})=>{
+const ListInput = ({ handleStateUpdated})=>{
   const [productValue, setProductValue] = useState("");
   const [productName, setProductName] = useState("");
   const [listName, setListName] = useState("");
@@ -23,7 +23,7 @@ const ListInput = ({ LOCAL_URL, handleStateUpdated})=>{
       name: listName,
       products: [{ product: productName, quantity: productValue }],
     });
-    PostData(LOCAL_URL + "grocery-lists", json);
+    PostData("/api/grocery-lists", json);
     handleStateUpdated(Math.random())
   };
     return(
