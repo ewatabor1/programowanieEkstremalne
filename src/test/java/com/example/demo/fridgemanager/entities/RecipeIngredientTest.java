@@ -1,21 +1,23 @@
 package com.example.demo.fridgemanager.entities;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-class RecipeIngredientTest {
+@RunWith(JUnit4.class)
+public class RecipeIngredientTest {
     private Product product;
     private Recipe recipe;
     private BigDecimal amount;
     private RecipeIngredient recipeIngredient;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         product = new Product("pepsi", 250, LocalDate.now(), null, null, null, null, null);
         recipe = new Recipe.Builder()
                 .setName("student's breakfast")
@@ -30,12 +32,12 @@ class RecipeIngredientTest {
     }
 
     @Test
-    void getRecipe() {
+    public   void getRecipe() {
         assertEquals(recipeIngredient.getRecipe(), recipe);
     }
 
     @Test
-    void setRecipe() {
+    public   void setRecipe() {
         Product cola = new Product("cola", 250, LocalDate.now(), null, null, null, null, null);
         Recipe newRecipe = new Recipe.Builder()
                 .setName("students drink")
@@ -48,31 +50,31 @@ class RecipeIngredientTest {
     }
 
     @Test
-    void getProduct() {
+    public   void getProduct() {
         assertEquals(recipeIngredient.getProduct(), product);
     }
 
     @Test
-    void setProduct() {
+    public  void setProduct() {
         Product cola = new Product("cola", 250, LocalDate.now(), null, null, null, null, null);
         recipeIngredient.setProduct(cola);
         assertEquals(recipeIngredient.getProduct(), cola);
     }
 
     @Test
-    void getAmount() {
+    public   void getAmount() {
         assertEquals(recipeIngredient.getAmount(), amount);
     }
 
     @Test
-    void setAmount() {
+    public  void setAmount() {
         BigDecimal newAmount = new BigDecimal(456);
         recipeIngredient.setAmount(newAmount);
         assertEquals(recipeIngredient.getAmount(), newAmount);
     }
 
     @Test
-    void getId() {
+    public   void getId() {
         assertNull(recipeIngredient.getId());
     }
 }

@@ -1,22 +1,25 @@
 package com.example.demo.fridgemanager.entities;
 
 import com.example.demo.fridgemanager.dto.ProductDTO;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductTest {
+@RunWith(JUnit4.class)
+public class ProductTest {
     private Product product;
     private HashMap<String, String> stringPropertyMap;
     private HashMap<String, Integer> integerPropertyMap;
     private HashMap<String, Double> doublePropertyMap;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
 
         stringPropertyMap = new HashMap<>();
         stringPropertyMap.put("name", "product_name");
@@ -38,69 +41,69 @@ class ProductTest {
     }
 
     @Test
-    void getKcal() {
+    public void getKcal() {
         assertEquals(product.getKcal(), integerPropertyMap.get("kcal"));
     }
 
     @Test
-    void setKcal() {
+    public   void setKcal() {
         product.setKcal(3);
         assertEquals(product.getKcal(), 3);
     }
 
     @Test
-    void getExpiryDate() {
+    public   void getExpiryDate() {
         assertEquals(product.getExpiryDate(), LocalDate.parse(stringPropertyMap.get("expiryDate")));
     }
 
     @Test
-    void setExpiryDate() {
+    public   void setExpiryDate() {
         LocalDate date = LocalDate.now();
         product.setExpiryDate(date);
         assertEquals(product.getExpiryDate(), date);
     }
 
     @Test
-    void getId() {
+    public   void getId() {
         assertNull(product.getId());
     }
 
     @Test
-    void setId() {
+    public   void setId() {
         product.setId(2L);
         assertEquals(product.getId(), 2);
     }
 
     @Test
-    void getQuantity() {
+    public   void getQuantity() {
         assertEquals(product.getQuantity(), integerPropertyMap.get("quantity"));
     }
 
 
     @Test
-    void setQuantity() {
+    public  void setQuantity() {
         product.setQuantity(2);
         assertEquals(product.getQuantity(), 2);
     }
 
     @Test
-    void getMinQuantity() {
+    public     void getMinQuantity() {
         assertEquals(product.getMinQuantity(), integerPropertyMap.get("minQuantity"));
     }
 
     @Test
-    void setMinQuantity() {
+    public   void setMinQuantity() {
         product.setMinQuantity(5);
         assertEquals(product.getMinQuantity(), 5);
     }
 
     @Test
-    void getName() {
+    public  void getName() {
         assertEquals(product.getName(), stringPropertyMap.get("name"));
     }
 
     @Test
-    void toDTO_id_null() {
+    public  void toDTO_id_null() {
         ProductDTO dtoObj = product.toDTO();
         assertNull(dtoObj.getId());
         assertEquals(dtoObj.getName(), stringPropertyMap.get("name"));
@@ -114,7 +117,7 @@ class ProductTest {
     }
 
     @Test
-    void toDTO_id_not_null() {
+    public void toDTO_id_not_null() {
         product.setId(2L);
         ProductDTO dtoObj = product.toDTO();
         assertEquals(dtoObj.getId(), 2);
@@ -129,40 +132,40 @@ class ProductTest {
     }
 
     @Test
-    void getCarbohydrates() {
+    public  void getCarbohydrates() {
         assertEquals(product.getCarbohydrates(), doublePropertyMap.get("carbohydrates"));
     }
 
     @Test
-    void getFats() {
+    public  void getFats() {
         assertEquals(product.getFats(), doublePropertyMap.get("fats"));
     }
 
     @Test
-    void getProteins() {
+    public   void getProteins() {
         assertEquals(product.getProteins(), doublePropertyMap.get("proteins"));
     }
 
     @Test
-    void setProteins() {
+    public   void setProteins() {
         product.setProteins(132.3);
         assertEquals(product.getProteins(), 132.3);
     }
 
     @Test
-    void setCarbohydrates() {
+    public   void setCarbohydrates() {
         product.setCarbohydrates(1231.3);
         assertEquals(product.getCarbohydrates(), 1231.3);
     }
 
     @Test
-    void setFats() {
+    public   void setFats() {
         product.setCarbohydrates(423.0);
         assertEquals(product.getCarbohydrates(), 423.0);
     }
 
     @Test
-    void create_product_without_calories() {
+    public   void create_product_without_calories() {
         Product product = new Product(stringPropertyMap.get("name"), null,
                 LocalDate.parse(stringPropertyMap.get("expiryDate")), integerPropertyMap.get("quantity"),
                 integerPropertyMap.get("minQuantity"), doublePropertyMap.get("proteins"),

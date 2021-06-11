@@ -1,7 +1,10 @@
 package com.example.demo.fridgemanager.entities;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,13 +12,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+@RunWith(JUnit4.class)
 
 public class GroceryListTest {
 
     private GroceryList groceryList;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         GroceryEntry cola = new GroceryEntry("Cola", 123);
         cola.setId(1L);
         GroceryEntry milk = new GroceryEntry("Milk", 2);
@@ -31,25 +35,25 @@ public class GroceryListTest {
     }
 
     @Test
-    void getId() {
+    public void getId() {
         assertNull(groceryList.getId());
     }
 
     @Test
-    void setId() {
+    public void setId() {
         groceryList.setId(3L);
         assertEquals(groceryList.getId(), 3L);
     }
 
     @Test
-    void addProduct() {
+    public void addProduct() {
         GroceryEntry breadSticks = new GroceryEntry("Bread Stricks", 3);
         groceryList.addEntry(breadSticks);
         assertEquals(groceryList.getProducts().size(), 4);
     }
 
     @Test
-    void removeProduct() {
+    public void removeProduct() {
         groceryList.removeEntry(2L);
         assertEquals(groceryList.getProducts().size(), 2);
     }

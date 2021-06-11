@@ -1,20 +1,22 @@
 package com.example.demo.fridgemanager.entities;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-class RecipeStepTest {
+@RunWith(JUnit4.class)
+public class RecipeStepTest {
     private RecipeStep recipeStep;
     private Recipe recipe;
     private final String recipeInstruction = "This is instruction for the recipe";
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public  void setUp() {
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null, null, null, null);
         recipe = new Recipe.Builder()
                 .setName("student's breakfast")
@@ -26,17 +28,17 @@ class RecipeStepTest {
     }
 
     @Test
-    void getRecipe() {
+    public    void getRecipe() {
         assertEquals(recipeStep.getRecipe(), recipe);
     }
 
     @Test
-    void getInstruction() {
+    public   void getInstruction() {
         assertEquals(recipeStep.getInstruction(), recipeInstruction);
     }
 
     @Test
-    void setRecipe() {
+    public  void setRecipe() {
         Product cola = new Product("cola", 250, LocalDate.now(), null, null, null, null, null);
         Recipe newRecipe = new Recipe.Builder()
                 .setName("students drink")
