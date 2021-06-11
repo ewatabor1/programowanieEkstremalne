@@ -78,3 +78,15 @@
 .list-fridge {
     width: 100%;
 }
+
+.recipe-list {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    height: 250px;
+    justify-content: space-around;
+    background: #37daf0;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

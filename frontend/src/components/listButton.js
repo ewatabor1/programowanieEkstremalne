@@ -1,7 +1,6 @@
 import React from "react";
 import './listInput.css'
 const ListButton = ({value,handleListClicked})=>{
-    console.log(value)
     return(
         <button
         className="list-button"

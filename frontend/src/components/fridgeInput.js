@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./fridgeOptions.css";
-import axios from "axios";
-const FridgeInput = ({ LOCAL_URL, updateState }) => {
+import {PostData} from './hooks/fetchData'
+const FridgeInput = ({updateState }) => {
   const [productName, setProductName] = useState("");
   const [productValue, setProductValue] = useState("");
   const [productExpire, setProductExpire] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
+  const [minimalQuantity, setMinimalQuantity] = useState(0)
   const handleChange = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
@@ -21,44 +22,40 @@ const FridgeInput = ({ LOCAL_URL, updateState }) => {
     if (nam === "productValue") {
       const value = parseInt(val, 10);
       setProductValue(value);
-    } else {
+    } else if(nam === "productQuantity") {
       const value = parseInt(val, 10);
       setProductQuantity(value);
+    }else {
+      const value = parseInt(val, 10);
+      setMinimalQuantity(value);
     }
   };
-  const handleSubmit = async () => {
-    console.log(LOCAL_URL)
+  const handleSubmit = () => {
     const json = JSON.stringify({
       name: productName,
       kcal: productValue,
       expiryDate: productExpire,
       quantity: productQuantity,
-      minQuantity: 2,
+      minQuantity: minimalQuantity,
     });
-    console.log(json);
-    await axios
-      .post(LOCAL_URL, json, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => console.log(response, json));
-
-    updateState(productQuantity)
+    PostData('/api/products',json)
+    updateState(Math.random())
   };
 
   return (
     <div className="fridge-input-container">
       <h2>Dodawanie</h2>
-      <form className="fridge-listitem">
+      <form className="fridge-listitem" data-testid='from'>
         <p>Nazwa produktu:</p>
-        <input type="text" name="productName" onChange={handleChange} />
+        <input type="text" name="productName" data-testid='productName-input' onChange={handleChange} />
         <p>Wartość energetyczna:</p>
         <input type="text" name="productValue" onChange={handleChange2} />
         <p>Data ważności:</p>
         <input type="text" name="productExpire" onChange={handleChange} />
         <p>Ilość:</p>
         <input type="text" name="productQuantity" onChange={handleChange2} />
+        <p>Minimalna ilość:</p>
+        <input type="text" name="minimalQuantity" onChange={handleChange2} />
       </form>
       <button onClick={handleSubmit}>Dodaj produkt</button>
     </div>

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Receipt.css";
-import axios from "axios";
-const LOCAL_URL = "http://localhost:8080/api/";
+import { GetData, PostData } from "../components/hooks/fetchData";
+import FridgeList from "../components/fridgeList";
+import ReceiptInput from "../components/receiptInput";
+import ReceiptList from "../components/receiptList";
+import SelectedList from "../components/selectedList";
 const ReceiptScreen = () => {
   const [products, setProducts] = useState([]);
   const [productName, setProductName] = useState("");
@@ -9,26 +12,17 @@ const ReceiptScreen = () => {
   const [data, setData] = useState([]);
   const [recipes, setRecipes] = useState([]);
   const [testRemove, setTestRemove] = useState({});
-  const [state, setState] = useState(0)
+  const [state, setState] = useState(0);
   useEffect(() => {
-    axios
-      .get(LOCAL_URL + "products")
-      .then((response) => {
-        setData(response.data);
-        console.log(data);
-      })
-      .catch((err) => console.log(err.message));
+    GetData("/api/products").then((data) => {
+      setData(data);
+    });
   }, []);
 
   useEffect(() => {
-    axios
-      .get(LOCAL_URL + "recipes")
-      .then((response) => {
-        setRecipes(response.data);
-        console.log(data);
-      })
-      .catch((err) => console.log(err.message));
-
+    GetData("/api/recipes").then((data) => {
+      setRecipes(data);
+    });
   }, [state]);
 
   const myChangeHandler = (event) => {
@@ -41,116 +35,52 @@ const ReceiptScreen = () => {
     }
   };
   const handleSubmit = () => {
-    const product = { ...testRemove, value: productQuantity };
+    const product = { ...testRemove, amount: productQuantity };
     const array = [...products, product];
     setProducts(array);
-    console.log(products);
   };
   const handleListClicked = (value) => {
-    const Remove = { name: value.name, id: value.id };
+    console.log(value);
+    const Remove = { name: value.name, productId: value.id, kcal: value.kcal};
     setTestRemove(Remove);
   };
 
-  const handleAddedRecipe = async () => {
-    console.log(products);
+  const handleAddedRecipe = () => {
+    console.log(products)
     const json = JSON.stringify({
       name: productName,
-      ingredients: [
-        { productId: products[0].id, amount: products[0].value },
-        { productId: products[1].id, amount: products[1].value },
-      ],
+      ingredients: products
     });
-    await axios
-      .post(LOCAL_URL + "recipes", json, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((json) => console.log(json));
-
-    setState(state+1)
+    PostData("/api/recipes", json);
+    setState(Math.random());
+    setProducts([]);
+    setProductName('')
   };
   return (
     <div className="Receipt-div">
       <h1 style={{ alignSelf: "center" }}>Przepisy</h1>
       <div className="Receipt-columns">
         <div className="Receipt-products">
-          <div className="Receipt-addingProduct">
-            <button onClick={handleAddedRecipe}>Zatwierdź przepis</button>
-            <p> </p>
-            <form>
-              <p>Nazwa przepisu:</p>
-              <input
-                type="text"
-                name="productName"
-                onChange={myChangeHandler}
-              />
-            </form>
-            <p> </p>
-            <form>
-              <p>Ilość produktu:</p>
-              <input
-                type="text"
-                name="productQuantity"
-                onChange={myChangeHandler}
-              />
-            </form>
-            <button onClick={handleSubmit}>Dodaj produkt</button>
-          </div>
+          <ReceiptInput
+            myChangeHandler={myChangeHandler}
+            handleAddedRecipe={handleAddedRecipe}
+            handleSubmit={handleSubmit}
+          />
           <div className="Receipt-productList">
             <h1>Dostępne produkty</h1>
-            {data.map((value) => {
-              return (
-                <li key={value.id} className="list-fridge">
-                  <button
-                    className="list-button"
-                    onClick={() => handleListClicked(value)}
-                    data-testid={value.value}
-                  >
-                    <p>{value.name}</p>
-                    <p>{"ilość: " + value.quantity}</p>
-                  </button>
-                </li>
-              );
-            })}
+            <FridgeList
+              data={data}
+              handleListClicked={handleListClicked}
+              type="Receipt"
+            />
           </div>
         </div>
-        <div className="Receipt-actualproducts">
-          <h2>{"Nazwa przepisu " + productName}</h2>
-          <h2>Wybrane produkty:</h2>
-          {products.map((value) => {
-            return (
-              <li key={value.id} className="list-fridge">
-                <button
-                  className="list-button"
-                  onClick={() => handleListClicked(value.id)}
-                  data-testid={value.value}
-                >
-                  <p>{value.name}</p>
-                  <p>{"ilość: " + value.value}</p>
-                </button>
-              </li>
-            );
-          })}
-        </div>
-        <div className="Receipt-Receipts">
-          <h2>Dostępne przepisy</h2>
-          {recipes.map((value) => {
-            console.log(value)
-            return (
-              <li key={value.id} className="list-fridge">
-                <p>{value.name}</p>
-                {value.ingredients.map((ingrediens) =>{
-                  return(<div className="list-ingrediens">
-                    <p>{ingrediens.product.name}</p>
-                    <p>{ingrediens.product.quantity}</p>
-                    </div>
-                  )
-                })}
-              </li>
-            );
-          })}
-        </div>
+        <SelectedList
+          products={products}
+          productName={productName}
+          handleListClicked={handleListClicked}
+        />
+        <ReceiptList recipes={recipes} />
       </div>
     </div>
   );

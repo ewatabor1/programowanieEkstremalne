@@ -1,51 +1,31 @@
 import React, { useState } from "react";
 import "./fridgeOptions.css";
-import axios from "axios";
-const FridgeUpdate = ({ LOCAL_URL, valueToRemove, updateState }) => {
+import {PutData} from './hooks/fetchData'
+const FridgeUpdate = ({ valueToRemove, updateState }) => {
   const testValue = valueToRemove;
   const [productValue, setProductValue] = useState("");
   const handleChange = (event) => {
-    let nam = event.target.name;
     let val = event.target.value;
     let value = parseInt(val, 10);
     setProductValue(value);
   };
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const actualValue = productValue;
     if (actualValue > 0) {
-      console.log('dodawanie');
-      await axios.put(
-        LOCAL_URL + `/supply/${testValue}` + `/${productValue}`,
-        "",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      PutData(`/api/products/supply/${testValue}/${productValue}`)
       updateState(Math.random());
     } else {
-      //setProductValue(Math.abs(productValue));
       const value = Math.abs(productValue)
-      console.log("odejmowanie");
-      await axios.put(
-        LOCAL_URL + `/consume/${testValue}` + `/${value}`,
-        "",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      PutData(`/api/products/consume/${testValue}/${value}`)
       updateState(Math.random());
     }
   };
   return (
     <div className="fridge-input-container">
       <h2>Aktualizowanie</h2>
-      <form className="fridge-listitem">
+      <form className="fridge-listitem" data-formid='form'>
         <p>Ilość:</p>
-        <input type="text" name="productValue" onChange={handleChange} />
+        <input type="text" name="productValue" data-testid='productValue-input' onChange={handleChange} />
       </form>
       <button onClick={handleSubmit}>Uaktualnij produkt</button>
     </div>

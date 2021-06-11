@@ -1,6 +1,6 @@
 {
-  "name": "testing-app",
-  "version": "0.1.0",
+  "name": "Fridge-Manager",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.6.2",

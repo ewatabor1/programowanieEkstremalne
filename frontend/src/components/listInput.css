@@ -24,7 +24,7 @@
     display: flex;
     flex-direction: row;
     width:240px;
-    height:60px;
+    height:80px;
     justify-content:space-around;
     background:#55c7fc;
     align-items:center;
