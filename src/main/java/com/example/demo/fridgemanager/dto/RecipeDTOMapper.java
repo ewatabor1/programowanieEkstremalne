@@ -17,6 +17,10 @@ public class RecipeDTOMapper {
     public RecipeDTO mapToDTO(Recipe recipe) {
         if (recipe == null)
             return null;
+
+        if(productDTOMapper == null) {
+            productDTOMapper = new ProductDTOMapper();
+        }
         return new RecipeDTO(
                 recipe.getId(),
                 recipe.getSteps().stream().map(step ->step.getInstruction()).collect(Collectors.toList()),
