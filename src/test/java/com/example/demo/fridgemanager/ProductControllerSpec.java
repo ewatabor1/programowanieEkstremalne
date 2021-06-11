@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(ProductController.class)
 @ContextConfiguration(classes = {ProductService.class,ProductController.class, ProductDTOMapper.class})
-@PropertySource(value = {"classpath:/config.json"}, factory = FridgeManagerApp.JsonLoader.class)
+@PropertySource(value = {"classpath:/test_config.json"}, factory = FridgeManagerApp.JsonLoader.class)
 class ProductControllerSpec {
 
     @Autowired

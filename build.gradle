@@ -16,11 +16,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'junit:junit:4.13.1'
     runtimeOnly 'com.h2database:h2:1.4.199'
 	implementation 'org.hibernate:hibernate-validator:5.4.3.Final'
 	compile 'org.springframework.boot:spring-boot-starter-webflux'
 
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")
+
+    testImplementation 'junit:junit:4.13.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

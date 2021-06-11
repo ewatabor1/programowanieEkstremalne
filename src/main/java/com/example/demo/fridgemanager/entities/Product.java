@@ -100,6 +100,10 @@ public class Product {
         return carbohydrates;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Double getFats() {
         return fats;
     }
