@@ -5,7 +5,8 @@ import com.example.demo.fridgemanager.dao.GroceryListDAO;
 import com.example.demo.fridgemanager.entities.GroceryEntry;
 import com.example.demo.fridgemanager.entities.GroceryList;
 import com.example.demo.fridgemanager.services.GroceryListService;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

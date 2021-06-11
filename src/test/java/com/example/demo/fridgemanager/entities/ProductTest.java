@@ -1,8 +1,8 @@
 package com.example.demo.fridgemanager.entities;
 
 import com.example.demo.fridgemanager.dto.ProductDTO;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.HashMap;

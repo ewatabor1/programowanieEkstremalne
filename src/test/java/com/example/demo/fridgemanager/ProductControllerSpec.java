@@ -5,7 +5,7 @@ import com.example.demo.fridgemanager.dao.ProductDAO;
 import com.example.demo.fridgemanager.dto.ProductDTOMapper;
 import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.services.ProductService;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
