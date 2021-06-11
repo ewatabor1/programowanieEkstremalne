@@ -1,5 +1,7 @@
 package com.example.demo.fridgemanager.entities;
 
+import org.hibernate.annotations.SortComparator;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.*;
@@ -10,9 +12,9 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @SortComparator(RecipeIngedientsComparator.class)
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<RecipeIngredient> ingredients = new LinkedHashSet<>();
-
+    private Set<RecipeIngredient> ingredients = new TreeSet<>(new RecipeIngedientsComparator());
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<RecipeStep> steps = new LinkedHashSet<>();
 
