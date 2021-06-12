@@ -30,9 +30,6 @@ public class GroceryListController {
         // return all grocery-lists
         List<GroceryList> entities = groceryListService.findAll();
         return groceryListDTOMapper.mapToDTO(entities);
-//        return groceryListService.findAll().stream().map(groceryList ->
-//                new GroceryListDTO(groceryList.getId(), groceryList.getName(), groceryList.getCreatedAt(), groceryList.getProducts())
-//        ).collect(Collectors.toList());
     }
 
     @GetMapping(value = "/grocery-lists/{name}",produces = APPLICATION_JSON_VALUE)
@@ -40,9 +37,6 @@ public class GroceryListController {
         // return all grocery-lists by name
         List<GroceryList> entities = groceryListService.getGroceryListsByName(name);
         return groceryListDTOMapper.mapToDTO(entities);
-//        return groceryListService.getGroceryListsByName(name).stream().map(groceryList ->
-//                new GroceryListDTO(groceryList.getId(), groceryList.getName(), groceryList.getCreatedAt(), groceryList.getProducts())
-//        ).collect(Collectors.toList());
     }
 
     @PostMapping(value = "/grocery-lists", consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
