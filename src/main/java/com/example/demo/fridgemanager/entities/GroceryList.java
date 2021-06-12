@@ -5,6 +5,7 @@ import com.example.demo.fridgemanager.dto.GroceryListDTO;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class GroceryList implements Cloneable {
@@ -60,5 +61,13 @@ public class GroceryList implements Cloneable {
 
     public GroceryListDTO toDTO() {
         return new GroceryListDTO(this.id, this.name, this.createdAt, this.products);
+    }
+
+    public void addEntry(GroceryEntry entry) {
+        this.products.add(entry);
+    }
+
+    public void removeEntry(Long id) {
+        this.products = this.products.stream().filter(entry -> !entry.getId().equals(id)).collect(Collectors.toList());
     }
 }

@@ -5,7 +5,8 @@ import com.example.demo.fridgemanager.dao.GroceryListDAO;
 import com.example.demo.fridgemanager.entities.GroceryEntry;
 import com.example.demo.fridgemanager.entities.GroceryList;
 import com.example.demo.fridgemanager.services.GroceryListService;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(GroceryListController.class)
 @ContextConfiguration(classes = { GroceryListService.class, GroceryListController.class })
-class GroceryListControllerSpec {
+public class GroceryListControllerSpec {
 
     @Autowired
     private MockMvc mvc;
@@ -49,7 +50,7 @@ class GroceryListControllerSpec {
     }
 
     @Test
-    void shouldAddGroceryListToDatabase() throws Exception {
+    public void shouldAddGroceryListToDatabase() throws Exception {
 
         GroceryList gl = prepareGL();
         List<GroceryList> allGroceryLists = Collections.singletonList(gl);
@@ -65,7 +66,7 @@ class GroceryListControllerSpec {
     }
 
     @Test
-    void shouldDeleteGroceryListFromDatabase() throws Exception {
+    public void shouldDeleteGroceryListFromDatabase() throws Exception {
         GroceryList gl = prepareGL();
 
         List<GroceryList> allGroceryLists = Collections.singletonList(gl);

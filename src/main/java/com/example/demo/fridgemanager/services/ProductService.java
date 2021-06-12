@@ -75,6 +75,7 @@ public class ProductService {
             if (dto.getProteins() != null) entityToUpdate.setProteins(dto.getProteins());
             if (dto.getCarbohydrates() != null) entityToUpdate.setCarbohydrates(dto.getCarbohydrates());
             if (dto.getFats() != null) entityToUpdate.setFats(dto.getFats());
+            if (dto.getName() != null) entityToUpdate.setName(dto.getName());
             dao.save(entityToUpdate);
         }
         return entityToUpdate;

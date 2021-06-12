@@ -16,14 +16,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'junit:junit:4.13.1'
     runtimeOnly 'com.h2database:h2:1.4.199'
 	implementation 'org.hibernate:hibernate-validator:5.4.3.Final'
 	compile 'org.springframework.boot:spring-boot-starter-webflux'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'junit:junit:4.13.1'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.4.5'
+	testImplementation 'org.junit.platform:junit-platform-commons:1.5.2'
+
 }
 
-test {
-	useJUnitPlatform()
-}

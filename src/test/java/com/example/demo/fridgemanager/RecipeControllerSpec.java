@@ -14,8 +14,8 @@ import com.example.demo.fridgemanager.services.RecipeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -47,9 +47,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(ProductController.class)
-@ContextConfiguration(classes = {DatabaseConfig.class, ProductService.class, ProductController.class, RecipeController.class, RecipeService.class, ProductDTOMapper.class, RecipeDTOMapper.class, ProductDAO.class, RecipeDAO.class})
-@PropertySource(value = {"classpath:/config.json"}, factory = FridgeManagerApp.JsonLoader.class)
-class RecipeControllerSpec {
+@ContextConfiguration(classes = {FridgeManagerApp.class,DatabaseConfig.class, ProductService.class, ProductController.class, RecipeController.class, RecipeService.class, ProductDTOMapper.class, RecipeDTOMapper.class, ProductDAO.class, RecipeDAO.class})
+public class RecipeControllerSpec {
 
     @Autowired
     private MockMvc mvc;
@@ -62,7 +61,7 @@ class RecipeControllerSpec {
     private ObjectMapper objectMapper;
 
     @Test
-    void shouldFindRecipe() throws Exception {
+    public void shouldFindRecipe() throws Exception {
 
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null, null, null, null);
         saveToDb(pepsi);
@@ -79,12 +78,12 @@ class RecipeControllerSpec {
         mvc.perform(get("/recipes")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", is(recipe.getName())));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[1].name", is(recipe.getName())));
     }
 
     @Test
-    void createRecipe() throws Exception {
+    public    void createRecipe() throws Exception {
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null, null, null, null);
         Product sausage = new Product("sausage", 251, LocalDate.now(), null, null, null, null, null);
 
@@ -121,7 +120,7 @@ class RecipeControllerSpec {
     }
 
     @Test
-    void updateRecipe() throws Exception {
+    public    void updateRecipe() throws Exception {
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null, null, null, null);
         Product sausage = new Product("sausage", 251, LocalDate.now(), null, null, null, null, null);
 
@@ -175,7 +174,7 @@ class RecipeControllerSpec {
     }
 
     @Test
-    void deleteRecipe() throws Exception {
+    public  void deleteRecipe() throws Exception {
         RecipeDTO recipe = new RecipeDTO(
                 null,
                 Collections.emptyList(),

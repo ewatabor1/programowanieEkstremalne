@@ -32,7 +32,7 @@ public class RecipeService {
     public void initialize(Environment environment) throws JsonProcessingException {
         String initialRecipesFile = environment.getProperty("initial_recipes");
         if (initialRecipesFile != null) {
-            List<RecipeDTO> recipes = JsonLoader.readJsonListFromFile(initialRecipesFile,RecipeDTO.class, objectMapper);
+            List<RecipeDTO> recipes = JsonLoader.readJsonListFromFile(initialRecipesFile, RecipeDTO.class, objectMapper);
             for (RecipeDTO recipe : recipes) {
                 if (dao.findByName(recipe.getName()).isEmpty())
                     save(recipe);
@@ -110,7 +110,7 @@ public class RecipeService {
                         .filter(p -> p.getId().equals(ing.getProductId()))
                         .findFirst().orElseGet(() ->
                                 products.stream().filter(p -> p.getName().equals(ing.getProductName()))
-                                        .findFirst().orElseThrow(() -> new EntityNotFoundException(Product.class, ing.getProduct().getId())));
+                                        .findFirst().orElseThrow(() -> new EntityNotFoundException(Product.class, ing.getProductId() != null ? ing.getProductId() : ing.getProductName())));
                 ingredientMap.put(product, ing.getAmount());
             }
         }
