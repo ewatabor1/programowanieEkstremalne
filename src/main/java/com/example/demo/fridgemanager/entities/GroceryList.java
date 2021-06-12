@@ -64,7 +64,8 @@ public class GroceryList implements Cloneable {
     }
 
     public void addEntry(GroceryEntry entry) {
-        this.products.add(entry);
+        if(entry!=null)
+            this.products.add(entry);
     }
 
     public void removeEntry(Long id) {
