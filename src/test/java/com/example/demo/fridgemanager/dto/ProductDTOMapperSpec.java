@@ -1,8 +1,10 @@
 package com.example.demo.fridgemanager.dto;
 
 import com.example.demo.fridgemanager.entities.Product;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ProductDTOMapperSpec {
 
     private ProductDTOMapper mapper;
@@ -19,8 +22,8 @@ public class ProductDTOMapperSpec {
     private Product chicken;
     private List<Product> productList;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         date = LocalDate.of(2021, 12, 18);
         cola = new Product("Kolka", 130, date, 3, 2, 2.83, 80.99, 100.1);
         chicken = new Product("Chicken", 55, date, 1, 1, 20.83, 30.99, 60.1);
@@ -31,7 +34,7 @@ public class ProductDTOMapperSpec {
     }
 
     @Test
-    void toDtoSingle() {
+    public void toDtoSingle() {
         ProductDTO colaDTO = mapper.mapToDTO(cola);
         assertEquals(colaDTO.getName(), cola.getName());
         assertEquals(colaDTO.getKcal(), cola.getKcal());
@@ -44,7 +47,7 @@ public class ProductDTOMapperSpec {
     }
 
     @Test
-    void toDtoList() {
+    public void toDtoList() {
         List<ProductDTO> productDTOS = mapper.mapToDTO(productList);
 
         assertEquals(productDTOS.size(), productList.size());
@@ -61,7 +64,7 @@ public class ProductDTOMapperSpec {
     }
 
     @Test
-    void toDtoListFilterNull() {
+    public void toDtoListFilterNull() {
         productList.add(null);
         assertEquals(mapper.mapToDTO(productList).size(), 2);
     }

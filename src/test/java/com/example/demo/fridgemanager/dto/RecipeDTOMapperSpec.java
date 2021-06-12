@@ -4,8 +4,8 @@ import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.entities.Recipe;
 import com.example.demo.fridgemanager.entities.RecipeIngredient;
 import com.example.demo.fridgemanager.entities.RecipeStep;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class RecipeDTOMapperSpec {
@@ -42,8 +43,8 @@ public class RecipeDTOMapperSpec {
     private List<Recipe> recipesList;
 
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         date = LocalDate.of(2021, 12, 18);
         apple = new Product("Apple", 130, date, 3, 2, 2.83, 80.99, 100.1);
         apple.setId(1L);
@@ -77,7 +78,7 @@ public class RecipeDTOMapperSpec {
     }
 
     @Test
-    void toDtoSingle() {
+    public void toDtoSingle() {
         RecipeDTO applePieDTO = mapper.mapToDTO(applePie);
         assertEquals(applePieDTO.getName(), applePie.getName());
         assertEquals(applePieDTO.getDescription(), applePie.getDescription());
@@ -95,7 +96,7 @@ public class RecipeDTOMapperSpec {
     }
 
     @Test
-    void toDtoList() {
+    public void toDtoList() {
         List<RecipeDTO> recipesDTOs = mapper.mapToDTO(recipesList);
         assertEquals(recipesDTOs.size(), recipesList.size());
 
@@ -117,7 +118,7 @@ public class RecipeDTOMapperSpec {
 
 
     @Test
-    void toDtoListFilterNull() {
+    public void toDtoListFilterNull() {
         recipesList.add(null);
         assertEquals(mapper.mapToDTO(recipesList).size(), 2);
     }
