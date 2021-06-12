@@ -28,9 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(ProductController.class)
-@ContextConfiguration(classes = {ProductService.class,ProductController.class, ProductDTOMapper.class})
-@PropertySource(value = {"classpath:/test_config.json"}, factory = FridgeManagerApp.JsonLoader.class)
-class ProductControllerSpec {
+@ContextConfiguration(classes = {FridgeManagerApp.class,ProductService.class,ProductController.class, ProductDTOMapper.class})
+public class ProductControllerSpec {
 
     @Autowired
     private MockMvc mvc;
@@ -39,7 +38,7 @@ class ProductControllerSpec {
     private ProductDAO dao;
 
     @Test
-    void shouldAddProductToDatabase() throws Exception {
+    public void shouldAddProductToDatabase() throws Exception {
         Product pepsi = new Product("pepsi", null, LocalDate.now(), null, null, 1d,2d,3d);
 
         List<Product> allProducts = Collections.singletonList(pepsi);
@@ -58,7 +57,7 @@ class ProductControllerSpec {
     }
 
     @Test
-    void shouldDeleteProductFromDatabase() throws Exception {
+    public   void shouldDeleteProductFromDatabase() throws Exception {
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null, null, null, null);
 
         List<Product> allProducts = Collections.singletonList(pepsi);
@@ -75,7 +74,7 @@ class ProductControllerSpec {
     }
 
     @Test
-    void shouldSupplyProduct() throws Exception {
+    public    void shouldSupplyProduct() throws Exception {
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null,null, null, null);
 
         given(dao.getById(1L)).willReturn(pepsi);
@@ -86,7 +85,7 @@ class ProductControllerSpec {
     }
 
     @Test
-    void shouldConsumeProduct() throws Exception {
+    public     void shouldConsumeProduct() throws Exception {
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), 2, null, null, null, null);
 
         given(dao.getById(1L)).willReturn(pepsi);
@@ -97,7 +96,7 @@ class ProductControllerSpec {
     }
 
     @Test
-    void shouldConsumeProductAndReturnMinimalQuantityMessage() throws Exception {
+    public   void shouldConsumeProductAndReturnMinimalQuantityMessage() throws Exception {
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), 3, 2, null, null, null);
 
         given(dao.getById(1L)).willReturn(pepsi);
@@ -109,7 +108,7 @@ class ProductControllerSpec {
     }
 
     @Test
-    void shouldNotConsumeProduct() throws Exception {
+    public   void shouldNotConsumeProduct() throws Exception {
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), 2, null, null, null, null);
 
         given(dao.getById(1L)).willReturn(pepsi);

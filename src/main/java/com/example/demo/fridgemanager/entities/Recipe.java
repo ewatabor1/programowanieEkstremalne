@@ -29,8 +29,8 @@ public class Recipe {
             throw new RuntimeException("name must not be empty");
         this.name = name;
         this.description = description;
-        this.ingredients = ingredients.entrySet().stream().map(entry -> new RecipeIngredient(this, entry.getKey(), entry.getValue())).collect(Collectors.toSet());
-        this.steps = instructions.stream().map(instruction -> new RecipeStep(this, instruction)).collect(Collectors.toSet());
+        this.ingredients.addAll(ingredients.entrySet().stream().map(entry -> new RecipeIngredient(this, entry.getKey(), entry.getValue())).collect(Collectors.toSet()));
+        this.steps.addAll(instructions.stream().map(instruction -> new RecipeStep(this, instruction)).collect(Collectors.toSet()));
     }
 
 
