@@ -99,12 +99,12 @@ public class RecipeService {
     }
 
     private Recipe updateInternal(Recipe recipe, RecipeDTO dto) {
-        Set<Long> productIds = dto.getIngredients().stream().map(RecipeIngredientDTO::getProductId).filter(Objects::nonNull).collect(Collectors.toSet());
-        Set<String> productNames = dto.getIngredients().stream().map(RecipeIngredientDTO::getProductName).filter(Objects::nonNull).collect(Collectors.toSet());
-        List<Product> products = productDAO.findByIds(productIds);
-        products.addAll(productDAO.findByNames(productNames));
         Map<Product, BigDecimal> ingredientMap = new HashMap<>();
         if (dto.getIngredients() != null) {
+            Set<Long> productIds = dto.getIngredients().stream().map(RecipeIngredientDTO::getProductId).filter(Objects::nonNull).collect(Collectors.toSet());
+            Set<String> productNames = dto.getIngredients().stream().map(RecipeIngredientDTO::getProductName).filter(Objects::nonNull).collect(Collectors.toSet());
+            List<Product> products = productDAO.findByIds(productIds);
+            products.addAll(productDAO.findByNames(productNames));
             for (RecipeIngredientDTO ing : dto.getIngredients()) {
                 Product product = products.stream()
                         .filter(p -> p.getId().equals(ing.getProductId()))
