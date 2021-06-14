@@ -5,6 +5,7 @@ import FridgeList from "../components/fridgeList";
 import ReceiptInput from "../components/receiptInput";
 import ReceiptList from "../components/receiptList";
 import SelectedList from "../components/selectedList";
+
 const ReceiptScreen = () => {
   const [products, setProducts] = useState([]);
   const [productName, setProductName] = useState("");
@@ -52,22 +53,19 @@ const ReceiptScreen = () => {
       ingredients: products
     });
     PostData("/api/recipes", json);
-    setState(Math.random());
+    setTimeout(()=>{setState(Math.random())},500)
     setProducts([]);
     setProductName('')
   };
   return (
     <div className="Receipt-div">
-      <h1 style={{ alignSelf: "center" }}>Przepisy</h1>
       <div className="Receipt-columns">
         <div className="Receipt-products">
           <ReceiptInput
             myChangeHandler={myChangeHandler}
-            handleAddedRecipe={handleAddedRecipe}
             handleSubmit={handleSubmit}
           />
           <div className="Receipt-productList">
-            <h1>Dostępne produkty</h1>
             <FridgeList
               data={data}
               handleListClicked={handleListClicked}
@@ -79,6 +77,8 @@ const ReceiptScreen = () => {
           products={products}
           productName={productName}
           handleListClicked={handleListClicked}
+          handleAddedRecipe={handleAddedRecipe}
+          myChangeHandler={myChangeHandler}
         />
         <ReceiptList recipes={recipes} />
       </div>

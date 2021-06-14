@@ -14,11 +14,12 @@ function Home() {
       setTest(data);
       console.log(data);
     });
+    console.log('download data')
   }, [state]);
 
   const handleRemove = () => {
     DeleteData(`/api/grocery-lists/${valueToRemove}`);
-    setState(state + 1);
+    setTimeout(()=>{setState(state + 1)},500)
   };
 
   const handleListClicked = (value) => {
@@ -26,18 +27,17 @@ function Home() {
   };
   const handleStateUpdated = (value) => {
     console.log(value);
-    setState(value);
+    setTimeout(()=>{setState(value)},500)
+    
   };
   return (
     <div className="App-main">
       <ListInput
-
+        handleRemove = {handleRemove}
         handleStateUpdated={handleStateUpdated}
       />
       <ProductList test={test} handleListClicked={handleListClicked} />
-      <div>
-        <button onClick={handleRemove}>Usuń produkt</button>
-      </div>
+
     </div>
   );
 }

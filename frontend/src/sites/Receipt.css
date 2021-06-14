@@ -25,7 +25,7 @@
     display: flex;
     flex-direction: column;
     width: 40vw;
-    margin:3%;
+
     align-items: center;
 }
 
@@ -67,6 +67,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
 .list-ingrediens {
@@ -82,11 +84,28 @@
 .recipe-list {
     display: flex;
     flex-direction: column;
-    width: 240px;
-    height: 250px;
+    width: 400px;
+    height: 300px;
     justify-content: space-around;
-    background: #37daf0;
     padding-left: 10px;
-    margin-top: 10px;
+    padding-right: 10px;
+    margin-top: 50px;
     margin-bottom: 10px;
+    box-shadow: 0 0px 8px 0px rgba(0, 0, 0, 0.2);
+    border-radius:10px
+}
+
+.receipt-title {
+    flex-direction:column;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height:120px
+}
+
+.recipe-title-button {
+    border:0;
+    padding:0;
+    background:0;
+    outline: 0;
 }

@@ -5,9 +5,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./sites/Home";
 import ReceiptScreen from "./sites/ReceiptScreen";
 import Fridge from "./sites/FridgeScreen";
+import "@material-tailwind/react/tailwind.css";
 const navigation = [
   { path: "/", name: "Home" },
-  { path: "/receipt", name: "Receipt" },
+  { path: "/receipt", name: "Recipes" },
   { path: "/fridge", name: "Fridge" },
 ];
 const App = () => {
