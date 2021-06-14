@@ -2,8 +2,11 @@ package com.example.demo.fridgemanager.controller;
 
 import com.example.demo.fridgemanager.dto.GroceryEntryDTO;
 import com.example.demo.fridgemanager.dto.GroceryListDTO;
+import com.example.demo.fridgemanager.dto.GroceryListDTOMapper;
+import com.example.demo.fridgemanager.dto.ProductDTOMapper;
 import com.example.demo.fridgemanager.entities.GroceryEntry;
 import com.example.demo.fridgemanager.entities.GroceryList;
+import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.services.GroceryListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +23,20 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class GroceryListController {
     @Autowired
     private GroceryListService groceryListService;
-
+    @Autowired
+    private GroceryListDTOMapper groceryListDTOMapper;
     @GetMapping(value = "/grocery-lists",produces = APPLICATION_JSON_VALUE)
     List<GroceryListDTO> all() {
         // return all grocery-lists
-        return groceryListService.findAll().stream().map(groceryList ->
-                new GroceryListDTO(groceryList.getId(), groceryList.getName(), groceryList.getCreatedAt(), groceryList.getProducts())
-        ).collect(Collectors.toList());
+        List<GroceryList> entities = groceryListService.findAll();
+        return groceryListDTOMapper.mapToDTO(entities);
     }
 
     @GetMapping(value = "/grocery-lists/{name}",produces = APPLICATION_JSON_VALUE)
     List<GroceryListDTO> allByName(@PathVariable String name) {
         // return all grocery-lists by name
-        return groceryListService.getGroceryListsByName(name).stream().map(groceryList ->
-                new GroceryListDTO(groceryList.getId(), groceryList.getName(), groceryList.getCreatedAt(), groceryList.getProducts())
-        ).collect(Collectors.toList());
+        List<GroceryList> entities = groceryListService.getGroceryListsByName(name);
+        return groceryListDTOMapper.mapToDTO(entities);
     }
 
     @PostMapping(value = "/grocery-lists", consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
