@@ -84,20 +84,19 @@ public class Recipe {
     public static class Builder {
         private List<String> instructions = new ArrayList<>();
         private Map<Product, BigDecimal> ingredients = new HashMap<>();
-        private String name;
+        private final String name;
         private String description;
 
-        public Builder setName(String name) {
+        public Builder(String name) {
             this.name = name;
-            return this;
         }
 
-        public Builder setDescription(String description) {
+        public Builder withDescription(String description) {
             this.description = description;
             return this;
         }
 
-        public Builder setInstructions(Collection<String> steps) {
+        public Builder withInstructions(Collection<String> steps) {
             if (steps != null) {
                 this.instructions.clear();
                 this.instructions.addAll(steps);
@@ -105,10 +104,11 @@ public class Recipe {
             return this;
         }
 
-        public Builder setIngredients(Map<Product, BigDecimal> ingredients) {
-            if(ingredients!=null){
-            this.ingredients.clear();
-            this.ingredients.putAll(ingredients);}
+        public Builder withIngredients(Map<Product, BigDecimal> ingredients) {
+            if (ingredients != null) {
+                this.ingredients.clear();
+                this.ingredients.putAll(ingredients);
+            }
             return this;
         }
 

@@ -1,23 +1,20 @@
 package com.example.demo.fridgemanager.dao;
 
 import com.example.demo.fridgemanager.entities.Product;
+import com.example.demo.fridgemanager.entities.Recipe;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
-public abstract class DAO<Entity> {
-    @PersistenceContext
-    protected EntityManager entityManager;
+public interface DAO<T> {
+    List<T> findAll();
 
-    public abstract List<Entity> findAll();
+    T findById(Long id);
 
-    public abstract void delete(Long id);
+    void delete(Long id);
 
-    @Transactional
-    public Entity save(Entity entity) {
-        entityManager.persist(entity);
-        return entity;
-    }
+    List<T> findByIds(Collection<Long> ids);
+
+    T save(T data);
 }

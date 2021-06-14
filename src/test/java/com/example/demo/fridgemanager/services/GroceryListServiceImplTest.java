@@ -1,9 +1,6 @@
 package com.example.demo.fridgemanager.services;
 
 import com.example.demo.fridgemanager.dao.GroceryListDAO;
-import com.example.demo.fridgemanager.dao.ProductDAO;
-import com.example.demo.fridgemanager.dao.RecipeDAO;
-import com.example.demo.fridgemanager.dto.GroceryListDTO;
 import com.example.demo.fridgemanager.entities.GroceryEntry;
 import com.example.demo.fridgemanager.entities.GroceryList;
 import org.junit.Before;
@@ -26,12 +23,12 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GroceryListServiceTest {
+public class GroceryListServiceImplTest {
 
     @Mock
-    GroceryListDAO groceryListDAO = Mockito.mock(GroceryListDAO.class);
+    GroceryListDAO groceryListDAOImpl = Mockito.mock(GroceryListDAO.class);
     @InjectMocks
-    GroceryListService groceryListService = new GroceryListService();
+    GroceryListServiceImpl groceryListServiceImpl = new GroceryListServiceImpl();
 
     GroceryEntry groceryEntry1;
     GroceryEntry groceryEntry2;
@@ -54,8 +51,8 @@ public class GroceryListServiceTest {
 
         GroceryList groceryList = new GroceryList(groceryListName, localDate, groceries);
 
-        GroceryList result = groceryListService.save(groceryList.toDTO());
-        verify(groceryListDAO, Mockito.times(1)).save(any());
+        GroceryList result = groceryListServiceImpl.save(groceryList.toDTO());
+        verify(groceryListDAOImpl, Mockito.times(1)).save(any());
 
         assertEquals(groceryListName, result.getName());
         assertEquals(localDate, result.getCreatedAt());
@@ -70,9 +67,9 @@ public class GroceryListServiceTest {
         GroceryList groceryListNull = new GroceryList(null, localDate, groceries);
         GroceryList groceryListEmpty = new GroceryList("", localDate, groceries);
 
-        GroceryList resultNull = groceryListService.save(groceryListNull.toDTO());
-        GroceryList resultEmpty = groceryListService.save(groceryListEmpty.toDTO());
-        verify(groceryListDAO, Mockito.times(2)).save(any());
+        GroceryList resultNull = groceryListServiceImpl.save(groceryListNull.toDTO());
+        GroceryList resultEmpty = groceryListServiceImpl.save(groceryListEmpty.toDTO());
+        verify(groceryListDAOImpl, Mockito.times(2)).save(any());
 
         assertNull(resultNull.getName());
         assertEquals(localDate, resultNull.getCreatedAt());
@@ -91,8 +88,8 @@ public class GroceryListServiceTest {
 
         GroceryList groceryList = new GroceryList("Grocery list test", null, groceries);
 
-        GroceryList result = groceryListService.save(groceryList.toDTO());
-        verify(groceryListDAO, Mockito.times(1)).save(any());
+        GroceryList result = groceryListServiceImpl.save(groceryList.toDTO());
+        verify(groceryListDAOImpl, Mockito.times(1)).save(any());
 
         assertEquals(groceryListName, result.getName());
         assertNull(result.getCreatedAt());
@@ -106,9 +103,9 @@ public class GroceryListServiceTest {
         GroceryList groceryListNull = new GroceryList("Grocery list test", localDate, null);
         GroceryList groceryListEmpty = new GroceryList("Grocery list test", localDate, Collections.emptyList());
 
-        GroceryList resultNull = groceryListService.save(groceryListNull.toDTO());
-        GroceryList resultEmpty = groceryListService.save(groceryListEmpty.toDTO());
-        verify(groceryListDAO, Mockito.times(2)).save(any());
+        GroceryList resultNull = groceryListServiceImpl.save(groceryListNull.toDTO());
+        GroceryList resultEmpty = groceryListServiceImpl.save(groceryListEmpty.toDTO());
+        verify(groceryListDAOImpl, Mockito.times(2)).save(any());
 
         assertEquals(groceryListName, resultNull.getName());
         assertEquals(localDate, resultNull.getCreatedAt());
@@ -129,13 +126,13 @@ public class GroceryListServiceTest {
         GroceryList groceryList1 = new GroceryList(groceryListName1, localDate, groceries);
         GroceryList groceryList2 = new GroceryList(groceryListName2, localDate, groceries);
 
-        GroceryList result1 = groceryListService.save(groceryList1.toDTO());
-        GroceryList result2 = groceryListService.save(groceryList2.toDTO());
-        verify(groceryListDAO, Mockito.times(2)).save(any());
+        GroceryList result1 = groceryListServiceImpl.save(groceryList1.toDTO());
+        GroceryList result2 = groceryListServiceImpl.save(groceryList2.toDTO());
+        verify(groceryListDAOImpl, Mockito.times(2)).save(any());
 
-        when(groceryListDAO.findAll()).thenReturn(Arrays.asList(result1,result2));
+        when(groceryListDAOImpl.findAll()).thenReturn(Arrays.asList(result1,result2));
 
-        List<GroceryList> foundGroceryLists = groceryListService.findAll();
+        List<GroceryList> foundGroceryLists = groceryListServiceImpl.findAll();
         assertTrue(foundGroceryLists.contains(result1));
         assertTrue(foundGroceryLists.contains(result2));
         assertEquals(2, foundGroceryLists.size());
@@ -152,15 +149,15 @@ public class GroceryListServiceTest {
         GroceryList groceryList2 = new GroceryList(groceryListName, localDate, Arrays.asList(groceryEntry1,groceryEntry2, new GroceryEntry("milk",5)));
         GroceryList groceryList3 = new GroceryList(groceryListNameNotTheSame, localDate, groceries);
 
-        GroceryList result1 = groceryListService.save(groceryList.toDTO());
-        GroceryList result2 = groceryListService.save(groceryList2.toDTO());
-        GroceryList result3 = groceryListService.save(groceryList3.toDTO());
+        GroceryList result1 = groceryListServiceImpl.save(groceryList.toDTO());
+        GroceryList result2 = groceryListServiceImpl.save(groceryList2.toDTO());
+        GroceryList result3 = groceryListServiceImpl.save(groceryList3.toDTO());
 
-        verify(groceryListDAO, Mockito.times(3)).save(any());
+        verify(groceryListDAOImpl, Mockito.times(3)).save(any());
 
-        when(groceryListDAO.findByName(groceryListName)).thenReturn(Arrays.asList(result1, result2));
+        when(groceryListDAOImpl.findByName(groceryListName)).thenReturn(Arrays.asList(result1, result2));
 
-        List<GroceryList> resultLists = groceryListService.getGroceryListsByName(groceryListName);
+        List<GroceryList> resultLists = groceryListServiceImpl.getGroceryListsByName(groceryListName);
 
         assertTrue(resultLists.contains(result1));
         assertTrue(resultLists.contains(result2));
@@ -178,28 +175,28 @@ public class GroceryListServiceTest {
         GroceryList groceryList = new GroceryList(groceryListName, localDate, groceries);
         GroceryList groceryList2 = new GroceryList(groceryListName, localDate, Arrays.asList(groceryEntry1,groceryEntry2, new GroceryEntry("milk",5)));
 
-        GroceryList result1 = groceryListService.save(groceryList.toDTO());
-        groceryListService.save(groceryList2.toDTO());
+        GroceryList result1 = groceryListServiceImpl.save(groceryList.toDTO());
+        groceryListServiceImpl.save(groceryList2.toDTO());
 
-        verify(groceryListDAO, Mockito.times(2)).save(any());
+        verify(groceryListDAOImpl, Mockito.times(2)).save(any());
 
-        when(groceryListDAO.getById(1L)).thenReturn(result1);
+        when(groceryListDAOImpl.findById(1L)).thenReturn(result1);
 
-        GroceryList foundGroceryList = groceryListService.getById(1L);
+        GroceryList foundGroceryList = groceryListServiceImpl.getById(1L);
 
         assertEquals(result1, foundGroceryList);
     }
 
     @Test
     public void shouldDelete(){
-        groceryListService.delete(1L);
-        verify(groceryListDAO,times(1)).delete(eq(1L));
+        groceryListServiceImpl.delete(1L);
+        verify(groceryListDAOImpl,times(1)).delete(eq(1L));
     }
 
     @Test
     public void shouldNotUpdateForNullGroceryList(){
-        groceryListService.update(1L, null);
-        verify(groceryListDAO,times(0)).save(any());
+        groceryListServiceImpl.update(1L, null);
+        verify(groceryListDAOImpl,times(0)).save(any());
     }
 
     @Test
@@ -211,17 +208,17 @@ public class GroceryListServiceTest {
 
         GroceryList groceryList = new GroceryList(groceryListName, localDate, groceries);
 
-        GroceryList resultFirst = groceryListService.save(groceryList.toDTO());
-        verify(groceryListDAO,times(1)).save(any());
+        GroceryList resultFirst = groceryListServiceImpl.save(groceryList.toDTO());
+        verify(groceryListDAOImpl,times(1)).save(any());
 
         groceryList.setCreatedAt(LocalDate.now());
         groceryList.setName(groceryListDifferentName);
 
-        when(groceryListDAO.getById(1L)).thenReturn(resultFirst);
-        when(groceryListDAO.save(any())).thenReturn(groceryList);
+        when(groceryListDAOImpl.findById(1L)).thenReturn(resultFirst);
+        when(groceryListDAOImpl.save(any())).thenReturn(groceryList);
 
-        GroceryList result = groceryListService.update(1L, groceryList.toDTO());
-        verify(groceryListDAO,times(2)).save(any());
+        GroceryList result = groceryListServiceImpl.update(1L, groceryList.toDTO());
+        verify(groceryListDAOImpl,times(2)).save(any());
 
         assertEquals(groceryListDifferentName, result.getName());
         assertEquals(groceryList.getCreatedAt(), result.getCreatedAt());

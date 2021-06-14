@@ -1,57 +1,23 @@
 package com.example.demo.fridgemanager.services;
 
-import com.example.demo.fridgemanager.dao.GroceryListDAO;
 import com.example.demo.fridgemanager.dto.GroceryListDTO;
 import com.example.demo.fridgemanager.entities.GroceryList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.demo.fridgemanager.entities.Product;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Service
-public class GroceryListService {
-    @Autowired
-    private GroceryListDAO dao;
+public interface GroceryListService {
+    List<GroceryList> findAll();
 
-    public List<GroceryList> findAll() {
-        return dao.findAll();
-    }
+    List<GroceryList> getGroceryListsByName(String name);
 
-    public List<GroceryList> getGroceryListsByName(String name) {
-        return dao.findByName(name);
-    }
+    GroceryList save(GroceryListDTO dto);
 
-    public GroceryList getById(Long id) {
-        return dao.getById(id);
-    }
+    void delete(Long id);
 
-    @Transactional
-    public void delete(Long id) {
-        dao.delete(id);
-    }
+    void deleteByName(String name);
 
-    @Transactional
-    public void deleteByName(String name) {
-        dao.deleteByName(name);
-    }
+    GroceryList getById(Long id);
 
-    @Transactional
-    public GroceryList save(GroceryListDTO dto) {
-        GroceryList product = new GroceryList(dto.getName(), dto.getCreatedAt(), dto.getProducts());
-        dao.save(product);
-        return product;
-    }
-
-    @Transactional
-    public GroceryList update(Long id, GroceryListDTO dto) {
-        GroceryList entityToUpdate = dao.getById(id);
-        if (entityToUpdate != null) {
-            if (dto.getName() != null) entityToUpdate.setName(dto.getName());
-            if (dto.getProducts() != null) entityToUpdate.setProducts(dto.getProducts());
-            return dao.save(entityToUpdate);
-        }
-        return entityToUpdate;
-    }
-
+    GroceryList update(Long id, GroceryListDTO dto);
 }

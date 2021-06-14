@@ -3,6 +3,7 @@ package com.example.demo.fridgemanager.dto;
 import com.example.demo.fridgemanager.entities.GroceryList;
 import com.example.demo.fridgemanager.entities.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Service
 public class GroceryListDTOMapper {
 
     public GroceryListDTO mapToDTO(GroceryList groceryList) {

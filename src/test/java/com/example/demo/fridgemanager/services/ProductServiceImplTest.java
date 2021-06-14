@@ -1,6 +1,5 @@
 package com.example.demo.fridgemanager.services;
 
-import com.example.demo.fridgemanager.FridgeManagerApp;
 import com.example.demo.fridgemanager.dao.ProductDAO;
 import com.example.demo.fridgemanager.dto.ProductDTO;
 import com.example.demo.fridgemanager.entities.Product;
@@ -10,10 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -25,16 +20,16 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProductServiceTest {
+public class ProductServiceImplTest {
     @Mock
     ProductDAO dao;
     @InjectMocks
-    ProductService productService = new ProductService();
+    ProductServiceImpl productServiceImpl = new ProductServiceImpl();
 
     @Test
     public void productSaved() {
         ProductDTO dto = new ProductDTO(null, "test", 35, LocalDate.of(2000, 1, 1), 3, 2, 1d, 2d, 3d);
-        Product saved = productService.save(dto);
+        Product saved = productServiceImpl.save(dto);
         verify(dao, Mockito.times(1)).save(any());
 
         assertEquals("test", saved.getName());
@@ -51,10 +46,10 @@ public class ProductServiceTest {
     @Test
     public void productUpdated() {
         Product productToUpdate = new Product("initial product", null, null, null, null, null, null, null);
-        when(dao.getById(eq(1L))).thenReturn(productToUpdate);
+        when(dao.findById(eq(1L))).thenReturn(productToUpdate);
 
         ProductDTO dto = new ProductDTO(null, "test", 35, LocalDate.of(2000, 1, 1), 3, 2, 1d, 2d, 3d);
-        Product saved = productService.update(1L, dto);
+        Product saved = productServiceImpl.update(1L, dto);
 
         verify(dao, Mockito.times(1)).save(any());
 
@@ -73,7 +68,7 @@ public class ProductServiceTest {
         Product product = new Product("test", 35, LocalDate.of(2000,1,1),3, 2, 1d,2d,3d);
         when(dao.findAll()).thenReturn(Arrays.asList(product));
 
-        List<Product> products = productService.findAll();
+        List<Product> products = productServiceImpl.findAll();
         assertEquals(1,products.size());
 
         Product result = products.get(0);
@@ -91,7 +86,7 @@ public class ProductServiceTest {
         Product product = new Product("test", 35, LocalDate.of(2000,1,1),3, 2, 1d,2d,3d);
         when(dao.findByName(eq("test"))).thenReturn(Arrays.asList(product));
 
-        List<Product> products = productService.getProductsByName("test");
+        List<Product> products = productServiceImpl.getProductsByName("test");
         assertEquals(1,products.size());
 
         Product result = products.get(0);
@@ -107,9 +102,9 @@ public class ProductServiceTest {
     @Test
     public void getProductsById() {
         Product product = new Product("test", 35, LocalDate.of(2000,1,1),3, 2, 1d,2d,3d);
-        when(dao.getById(eq(1L))).thenReturn(product);
+        when(dao.findById(eq(1L))).thenReturn(product);
 
-        Product productReturned = productService.getById(1L);
+        Product productReturned = productServiceImpl.getById(1L);
         assertEquals("test", productReturned.getName());
         assertEquals(35, productReturned.getKcal().intValue());
         assertEquals(0, productReturned.getExpiryDate().compareTo(LocalDate.of(2000, 1, 1)));
@@ -122,14 +117,14 @@ public class ProductServiceTest {
 
     @Test
     public void deleteProductById() {
-         productService.delete(1L);
+         productServiceImpl.delete(1L);
 
          verify(dao,times(1)).delete(eq(1L));
     }
 
     @Test
     public void deleteProductByName() {
-        productService.deleteByName("test");
+        productServiceImpl.deleteByName("test");
 
         verify(dao,times(1)).deleteByName(eq("test"));
     }

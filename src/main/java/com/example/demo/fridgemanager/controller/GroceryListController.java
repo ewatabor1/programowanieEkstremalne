@@ -3,18 +3,14 @@ package com.example.demo.fridgemanager.controller;
 import com.example.demo.fridgemanager.dto.GroceryEntryDTO;
 import com.example.demo.fridgemanager.dto.GroceryListDTO;
 import com.example.demo.fridgemanager.dto.GroceryListDTOMapper;
-import com.example.demo.fridgemanager.dto.ProductDTOMapper;
 import com.example.demo.fridgemanager.entities.GroceryEntry;
 import com.example.demo.fridgemanager.entities.GroceryList;
-import com.example.demo.fridgemanager.entities.Product;
 import com.example.demo.fridgemanager.services.GroceryListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 

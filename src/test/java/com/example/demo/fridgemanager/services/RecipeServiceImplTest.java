@@ -27,13 +27,13 @@ import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class RecipeServiceTest {
+public class RecipeServiceImplTest {
 
     @Mock
     RecipeDAO dao = Mockito.mock(RecipeDAO.class);
-    ProductDAO productDAO = Mockito.mock(ProductDAO.class);
+    ProductDAO productDAOImpl = Mockito.mock(ProductDAO.class);
     @InjectMocks
-    RecipeService recipeService = new RecipeService();
+    RecipeServiceImpl recipeServiceImpl = new RecipeServiceImpl();
 
     ProductDTO productDTO1;
     ProductDTO productDTO2;
@@ -58,7 +58,7 @@ public class RecipeServiceTest {
 
     @Test
     public void recipeSavedCorrectlyGivenAllCorrectData() {
-        when(productDAO.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
+        when(productDAOImpl.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
 
         String recipeName1 = "Recipe 1";
         String description1 = "Recipe For Test";
@@ -68,7 +68,7 @@ public class RecipeServiceTest {
         RecipeDTO recipeDTO = new RecipeDTO(null, steps1,
                 recipeIngredientDTOS, recipeName1, description1);
 
-        Recipe recipeResult = recipeService.save(recipeDTO);
+        Recipe recipeResult = recipeServiceImpl.save(recipeDTO);
 
         verify(dao, Mockito.times(1)).save(any());
 
@@ -84,7 +84,7 @@ public class RecipeServiceTest {
 
     @Test
     public void recipeSavedGivenNullOrEmptyStepsData(){
-        when(productDAO.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
+        when(productDAOImpl.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
 
         String recipeName1 = "Recipe 1";
         String description1 = "Recipe For Test";
@@ -93,8 +93,8 @@ public class RecipeServiceTest {
         RecipeDTO recipeDTONull = new RecipeDTO(null, null, recipeIngredientDTOS, recipeName1, description1);
         RecipeDTO recipeDTOEmpty = new RecipeDTO(null, Collections.emptyList(), recipeIngredientDTOS, recipeName1, description1);
 
-        Recipe recipeResultNull = recipeService.save(recipeDTONull);
-        Recipe recipeResultEmpty = recipeService.save(recipeDTOEmpty);
+        Recipe recipeResultNull = recipeServiceImpl.save(recipeDTONull);
+        Recipe recipeResultEmpty = recipeServiceImpl.save(recipeDTOEmpty);
 
         verify(dao, Mockito.times(2)).save(any());
 
@@ -122,8 +122,8 @@ public class RecipeServiceTest {
         RecipeDTO recipeDTONull = new RecipeDTO(null, steps1, null, recipeName1, description1);
         RecipeDTO recipeDTOEmpty = new RecipeDTO(null, steps1, Collections.emptyList(), recipeName1, description1);
 
-        Recipe recipeResultNull = recipeService.save(recipeDTONull);
-        Recipe recipeResultEmpty = recipeService.save(recipeDTOEmpty);
+        Recipe recipeResultNull = recipeServiceImpl.save(recipeDTONull);
+        Recipe recipeResultEmpty = recipeServiceImpl.save(recipeDTOEmpty);
 
         verify(dao, Mockito.times(2)).save(any());
 
@@ -140,7 +140,7 @@ public class RecipeServiceTest {
 
     @Test
     public void recipeSavedGivenNullOrEmptyDescription() {
-        when(productDAO.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
+        when(productDAOImpl.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
 
         String recipeName1 = "Recipe 1";
         List<String> steps1 = Arrays.asList("Step 1", "Step 2", "Step 3");
@@ -149,8 +149,8 @@ public class RecipeServiceTest {
         RecipeDTO recipeDTONull = new RecipeDTO(null, steps1, recipeIngredientDTOS, recipeName1, null);
         RecipeDTO recipeDTOEmpty = new RecipeDTO(null, steps1, recipeIngredientDTOS, recipeName1, "");
 
-        Recipe recipeResultNull = recipeService.save(recipeDTONull);
-        Recipe recipeResultEmpty = recipeService.save(recipeDTOEmpty);
+        Recipe recipeResultNull = recipeServiceImpl.save(recipeDTONull);
+        Recipe recipeResultEmpty = recipeServiceImpl.save(recipeDTOEmpty);
 
         verify(dao, Mockito.times(2)).save(any());
 
@@ -172,7 +172,7 @@ public class RecipeServiceTest {
 
     @Test
     public void recipeNotSavedGivenNullOrEmptyName(){
-        when(productDAO.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
+        when(productDAOImpl.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
 
         String description1 = "Recipe For Test";
         List<String> steps1 = Arrays.asList("Step 1", "Step 2", "Step 3");
@@ -182,10 +182,10 @@ public class RecipeServiceTest {
         RecipeDTO recipeDTOEmptyName = new RecipeDTO(null, steps1, recipeIngredientDTOS, "", description1);
 
         Throwable exceptionNull = Assertions.assertThrows(RuntimeException.class, () -> {
-            recipeService.save(recipeDTONullName);
+            recipeServiceImpl.save(recipeDTONullName);
         });
         Throwable exceptionEmpty = Assertions.assertThrows(RuntimeException.class, () -> {
-            recipeService.save(recipeDTOEmptyName);
+            recipeServiceImpl.save(recipeDTOEmptyName);
         });
 
         assertEquals(exceptionNull.getMessage(), "name must not be empty");
@@ -194,7 +194,7 @@ public class RecipeServiceTest {
 
     @Test
     public void recipeNotSavedGivenNullOrEmptyDescription(){
-        when(productDAO.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
+        when(productDAOImpl.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
 
         String description1 = "Recipe For Test";
         List<String> steps1 = Arrays.asList("Step 1", "Step 2", "Step 3");
@@ -204,10 +204,10 @@ public class RecipeServiceTest {
         RecipeDTO recipeDTOEmptyName = new RecipeDTO(null, steps1, recipeIngredientDTOS, "", description1);
 
         Throwable exceptionNull = Assertions.assertThrows(RuntimeException.class, () -> {
-            recipeService.save(recipeDTONullName);
+            recipeServiceImpl.save(recipeDTONullName);
         });
         Throwable exceptionEmpty = Assertions.assertThrows(RuntimeException.class, () -> {
-            recipeService.save(recipeDTOEmptyName);
+            recipeServiceImpl.save(recipeDTOEmptyName);
         });
 
         assertEquals(exceptionNull.getMessage(), "name must not be empty");
@@ -216,13 +216,13 @@ public class RecipeServiceTest {
 
     @Test
     public void shouldDelete(){
-        recipeService.delete(1L);
+        recipeServiceImpl.delete(1L);
         verify(dao,times(1)).delete(eq(1L));
     }
 
     @Test
     public void shouldUpdate(){
-        when(productDAO.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
+        when(productDAOImpl.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
 
         String recipeName = "Recipe 1";
         String recipeNameUpdated = "Recipe Updated";
@@ -235,11 +235,11 @@ public class RecipeServiceTest {
         List<String> stepsUpdated = Arrays.asList("Step 1", "Step 2", "Step 3", "Step 4");
         RecipeDTO recipeDTOUpdated = new RecipeDTO(1L, stepsUpdated, recipeIngredientDTOS, recipeNameUpdated, descriptionUpdated);
 
-        Recipe recipeResult = recipeService.save(recipeDTO);
+        Recipe recipeResult = recipeServiceImpl.save(recipeDTO);
         when(dao.findById(eq(1L))).thenReturn(recipeResult);
         verify(dao, Mockito.times(1)).save(any());
 
-        Recipe recipeUpdated = recipeService.update(1L, recipeDTOUpdated);
+        Recipe recipeUpdated = recipeServiceImpl.update(1L, recipeDTOUpdated);
 
         List<RecipeIngredient> recipeIngredientSet = recipeIngredientDTOS.stream().map(r -> new RecipeIngredient(recipeUpdated, productDtoToProduct(r.getProduct()), r.getAmount())).collect(Collectors.toList());
 
@@ -252,7 +252,7 @@ public class RecipeServiceTest {
 
     @Test
     public void returnSavedRecipes(){
-        when(productDAO.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
+        when(productDAOImpl.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
 
         String recipeName1 = "Recipe 1";
         String recipeName2 = "Recipe 2";
@@ -265,13 +265,13 @@ public class RecipeServiceTest {
         RecipeDTO recipeDTO1 = new RecipeDTO(null, steps1, recipeIngredientDTOS, recipeName1, description1);
         RecipeDTO recipeDTO2 = new RecipeDTO(null, steps2, recipeIngredientDTOS, recipeName2, description2);
 
-        Recipe recipeResult1 = recipeService.save(recipeDTO1);
-        Recipe recipeResult2 = recipeService.save(recipeDTO2);
+        Recipe recipeResult1 = recipeServiceImpl.save(recipeDTO1);
+        Recipe recipeResult2 = recipeServiceImpl.save(recipeDTO2);
 
         verify(dao, Mockito.times(2)).save(any());
         when(dao.findAll()).thenReturn(Arrays.asList(recipeResult1,recipeResult2));
 
-        List<Recipe> recipes = recipeService.findAll();
+        List<Recipe> recipes = recipeServiceImpl.findAll();
         verify(dao, Mockito.times(1)).findAll();
 
         assertTrue(recipes.contains(recipeResult1));
@@ -281,7 +281,7 @@ public class RecipeServiceTest {
 
     @Test
     public void returnEmptyAvailableRecipesForEmptyFridge(){
-        when(productDAO.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
+        when(productDAOImpl.findByNames(eq(new HashSet<>(Arrays.asList(productDTO1.getName(), productDTO2.getName()))))).thenReturn(Arrays.asList(product1,product2));
 
         String recipeName1 = "Recipe 1";
         String recipeName2 = "Recipe 2";
@@ -294,13 +294,13 @@ public class RecipeServiceTest {
         RecipeDTO recipeDTO1 = new RecipeDTO(null, steps1, recipeIngredientDTOS, recipeName1, description1);
         RecipeDTO recipeDTO2 = new RecipeDTO(null, steps2, recipeIngredientDTOS, recipeName2, description2);
 
-        Recipe recipeResult1 = recipeService.save(recipeDTO1);
-        Recipe recipeResult2 = recipeService.save(recipeDTO2);
+        Recipe recipeResult1 = recipeServiceImpl.save(recipeDTO1);
+        Recipe recipeResult2 = recipeServiceImpl.save(recipeDTO2);
 
         verify(dao, Mockito.times(2)).save(any());
         when(dao.findAll()).thenReturn(Arrays.asList(recipeResult1,recipeResult2));
 
-        List<Recipe> recipes = recipeService.findAvailable();
+        List<Recipe> recipes = recipeServiceImpl.findAvailable();
         verify(dao, Mockito.times(1)).findAll();
 
         assertEquals(recipes.size(), 0);

@@ -18,9 +18,8 @@ public class RecipeStepTest {
     @Before
     public  void setUp() {
         Product pepsi = new Product("pepsi", 250, LocalDate.now(), null, null, null, null, null);
-        recipe = new Recipe.Builder()
-                .setName("student's breakfast")
-                .setDescription("typical breakfast")
+        recipe = new Recipe.Builder("student's breakfast")
+                .withDescription("typical breakfast")
                 .addIngredient(pepsi, BigDecimal.valueOf(2))
                 .addInstruction("drink pepsi")
                 .create();
@@ -40,9 +39,8 @@ public class RecipeStepTest {
     @Test
     public  void setRecipe() {
         Product cola = new Product("cola", 250, LocalDate.now(), null, null, null, null, null);
-        Recipe newRecipe = new Recipe.Builder()
-                .setName("students drink")
-                .setDescription("typical drink")
+        Recipe newRecipe = new Recipe.Builder("students drink")
+                .withDescription("typical drink")
                 .addIngredient(cola, BigDecimal.valueOf(1))
                 .addInstruction("drink cola")
                 .create();

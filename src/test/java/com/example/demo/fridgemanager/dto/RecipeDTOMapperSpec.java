@@ -59,20 +59,18 @@ public class RecipeDTOMapperSpec {
 
         instructions = new ArrayList<>(Arrays.asList("step one", "step two"));
 
-        Recipe.Builder applePieBuilder = new Recipe.Builder();
-        applePieBuilder.setInstructions(instructions);
+        Recipe.Builder applePieBuilder = new Recipe.Builder("Applie pie");
+        applePieBuilder.withInstructions(instructions);
         applePieBuilder.addIngredient(apple, new BigDecimal(2));
         applePieBuilder.addIngredient(pie, BigDecimal.ONE);
-        applePieBuilder.setName("Apple pie");
-        applePieBuilder.setDescription("A recipe for apple pie");
+        applePieBuilder.withDescription("A recipe for apple pie");
         applePie = applePieBuilder.create();
 
-        Recipe.Builder tomatoSoupBuilder = new Recipe.Builder();
-        tomatoSoupBuilder.setInstructions(instructions);
+        Recipe.Builder tomatoSoupBuilder = new Recipe.Builder("Tomato soup");
+        tomatoSoupBuilder.withInstructions(instructions);
         tomatoSoupBuilder.addIngredient(soup, BigDecimal.ONE);
         tomatoSoupBuilder.addIngredient(rice, BigDecimal.TEN);
-        tomatoSoupBuilder.setName("Tomato soup");
-        tomatoSoupBuilder.setDescription("A recipe for tomato soup");
+        tomatoSoupBuilder.withDescription("A recipe for tomato soup");
         tomatoSoup = tomatoSoupBuilder.create();
 
         recipesList = new ArrayList<>(Arrays.asList(applePie, tomatoSoup));
